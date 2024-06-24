@@ -11,24 +11,25 @@ export const handleIncomingMessage = async (bp: typeof sdk, payload: any) => {
     if (!botId || !userId || !userName || !roomId || !messageText) {
       throw new Error('Missing required payload fields')
     }
-
+    
     // Check if the user exists
-    let user = await bp.users.getUser('rocketchat', userId)
-    if (!user) {
-      // Create the user if they don't exist
-      user = await bp.users.createUser('rocketchat', userId, {
-        first_name: userName,
-        last_name: ''
-      })
+    let user = await bp.users.getOrCreateUser('rocketchat', userId)
+    
+    // Fetch user memory
+    const userMemory = await bp.memory.getUserMemory(userId)
+
+    // Update user memory with userName if not already set
+    if (!userMemory.user.name) {
+      await bp.memory.setUserMemory(userId, { user: { name: userName } })
     }
 
     // Create or get the session
-    let session = await bp.dialogEngine.getOrCreateSession(botId, userId)
+    let session = await bp.dialog.getOrCreateSession(botId, userId)
 
     // Update session memory with roomId if not already set
-    const memory = await bp.dialogEngine.fetchMemory(session)
+    const memory = await bp.dialog.fetchMemory(session)
     if (!memory.roomId) {
-      await bp.dialogEngine.updateMemory(botId, userId, { roomId })
+      await bp.dialog.updateMemory(botId, userId, { roomId })
     }
 
     // Construct the event
