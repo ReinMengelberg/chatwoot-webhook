@@ -54,7 +54,7 @@ const entryPoint: sdk.ModuleEntryPoint = {
     // The full name is used in other places, for example when displaying bot templates
     fullName: 'Complete Module',
     // Not used anywhere, but should be a link to your website or module repository
-    homepage: 'https://botpress.com'
+    homepage: 'https://github.com/ReinMengelberg/rocketchat-webhook/'
   }
 }
 
