@@ -1,38 +1,34 @@
 import * as sdk from 'botpress/sdk'
 import { handleIncomingMessage } from './message-handler'
+import { Request, Response } from 'express'
 
 const ALLOWED_HOST = '159.223.223.7' // Host allowed to send requests
 
 export const setupWebhookEndpoint = (bp: typeof sdk) => {
-  const router = bp.http.createRouterForBot('botpress-rocketchat-webhook', { checkAuthentication: false })
+  const router = bp.http.createRouterForBot('rocketchat-webhook', { checkAuthentication: false })
 
-  router.post('/webhook', async (ctx) => {
-    const hostHeader = ctx.headers['Host']
+  router.post('/endpoint', async (req: Request, res: Response) => {
+    const hostHeader = req.headers['host']
 
     if (!hostHeader || !hostHeader.includes(ALLOWED_HOST)) {
-      ctx.status = 403
-      ctx.body = 'Forbidden: Invalid Host'
+      res.status(403).send('Forbidden: Invalid Host')
       return
     }
 
-    const { messages, agent, visitor } = ctx.request.body
+    const { messages, agent, visitor } = req.body
 
     if (!messages || !agent || !visitor) {
-      ctx.status = 400
-      ctx.body = 'messages, agent, and visitor are required'
+      res.status(400).send('messages, agent, and visitor are required')
       return
     }
 
     if (!agent.username.startsWith('aiex')) {
-      ctx.status = 200
-      ctx.body = 'Agent username does not match criteria, ignoring message'
+      res.status(200).send('Agent username does not match criteria, ignoring message')
       return
     }
 
-    await handleIncomingMessage(bp, ctx.request.body)
-    ctx.status = 200
-    ctx.body = 'Payload processed'
-    return
+    await handleIncomingMessage(bp, req.body)
+    res.status(200).send('Payload processed')
   })
 }
 
