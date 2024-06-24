@@ -1,5 +1,5 @@
 {
-  "name": "starter-module",
+  "name": "botpress-rocketchat-webhook",
   "version": "1.0.0",
   "description": "Some description on what this module is about",
   "private": true,
