@@ -32,6 +32,7 @@ export const setupWebhookEndpoint = (bp: typeof sdk) => {
     await handleIncomingMessage(bp, ctx.request.body)
     ctx.status = 200
     ctx.body = 'Payload processed'
+    return
   })
 }
 
