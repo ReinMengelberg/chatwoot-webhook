@@ -16,20 +16,22 @@ export const handleIncomingMessage = async (bp: typeof sdk, payload: any) => {
     let user = await bp.users.getOrCreateUser('rocketchat', userId)
     
     // Fetch user memory
-    const userMemory = await bp.memory.getUserMemory(userId)
+    const userMemory = await bp.users.getUserAttributes('rocketchat', userId)
 
     // Update user memory with userName if not already set
-    if (!userMemory.user.name) {
-      await bp.memory.setUserMemory(userId, { user: { name: userName } })
+    if (!userMemory.name) {
+      await bp.users.updateUserAttributes('rocketchat', userId, { name: userName })
     }
 
     // Create or get the session
-    let session = await bp.dialog.getOrCreateSession(botId, userId)
+    let sessionId = await bp.dialog.createOrGetSession(botId, userId)
+
+    // Fetch session memory
+    const memory = await bp.dialog.getMemory(sessionId)
 
     // Update session memory with roomId if not already set
-    const memory = await bp.dialog.fetchMemory(session)
     if (!memory.roomId) {
-      await bp.dialog.updateMemory(botId, userId, { roomId })
+      await bp.dialog.updateMemory(sessionId, { roomId })
     }
 
     // Construct the event
