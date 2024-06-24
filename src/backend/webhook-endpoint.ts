@@ -6,7 +6,7 @@ const ALLOWED_HOST = '159.223.223.7' // Host allowed to send requests
 export const setupWebhookEndpoint = (bp: typeof sdk) => {
   const router = bp.http.createRouterForBot('rocketchat-webhook', { checkAuthentication: false })
 
-  router.post('/endpoint', async (req: Request, res: Response) => {
+  router.post('/endpoint', async (req, res) => {
     const hostHeader = req.headers['host']
 
     if (!hostHeader || !hostHeader.includes(ALLOWED_HOST)) {
@@ -30,7 +30,3 @@ export const setupWebhookEndpoint = (bp: typeof sdk) => {
     res.status(200).send('Payload processed')
   })
 }
-
-
-
-
