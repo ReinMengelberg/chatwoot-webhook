@@ -1,6 +1,5 @@
 import * as sdk from 'botpress/sdk'
 import { handleIncomingMessage } from './message-handler'
-import { Request, Response } from 'express'
 
 const ALLOWED_HOST = '159.223.223.7' // Host allowed to send requests
 
