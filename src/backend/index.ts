@@ -4,8 +4,9 @@ import { setupWebhookEndpoint } from './webhook-endpoint'
 // This is called when the server is started, usually to set up the database
 const onServerStarted = async (bp: typeof sdk) => {}
 
-// At this point, you would likely setup the webhook endpoint of your module.
+// At this point, you would likely set up the API route of your module.
 const onServerReady = async (bp: typeof sdk) => {
+  // Setup the webhook endpoint
   setupWebhookEndpoint(bp)
 }
 
@@ -40,22 +41,23 @@ const entryPoint: sdk.ModuleEntryPoint = {
   skills,
   definition: {
     // This must match the name of your module's folder, and the name in package.json
-    name: 'rocketchat-webhook',
+    name: 'botpress-rocketchat-webhook',
     /**
      * By default we are using the https://blueprintjs.com/docs/#icons. Use the corresponding name
      * Otherwise, create an icon in the assets module in the following format studio_${module.menuIcon}
      */
     menuIcon: 'flag',
     // This is the name of your module which will be displayed in the sidebar
-    menuText: 'RocketChat WebHook',
+    menuText: 'Complete Module',
     // When set to `true`, the name and icon of your module won't be displayed in the sidebar
     noInterface: false,
     // The full name is used in other places, for example when displaying bot templates
-    fullName: 'RocketChat WebHook',
+    fullName: 'Complete Module',
     // Not used anywhere, but should be a link to your website or module repository
-    homepage: 'https://github.com/ReinMengelberg/rocketchat-webhook/'
+    homepage: 'https://botpress.com'
   }
 }
 
 export default entryPoint
+
 
