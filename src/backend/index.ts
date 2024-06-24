@@ -4,9 +4,8 @@ import { setupWebhookEndpoint } from './webhook-endpoint'
 // This is called when the server is started, usually to set up the database
 const onServerStarted = async (bp: typeof sdk) => {}
 
-// At this point, you would likely set up the API route of your module.
+// At this point, you would likely setup the webhook endpoint of your module.
 const onServerReady = async (bp: typeof sdk) => {
-  // Setup the webhook endpoint
   setupWebhookEndpoint(bp)
 }
 
