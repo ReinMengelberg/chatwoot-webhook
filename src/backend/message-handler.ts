@@ -38,11 +38,11 @@ export const handleIncomingMessage = async (bp: typeof sdk, payload: any) => {
     })
     
     // Construct the event
-    const event = {
+    const event: sdk.IO.IncomingEvent = {
       type: 'text',
-      channel: 'rocketchat', // Set the communication channel
-      target: userId, // User ID
-      botId: botId, // Bot ID
+      channel: 'rocketchat',
+      target: userId,
+      botId: botId,
       direction: 'incoming',
       payload: {
         text: messageText
@@ -57,9 +57,11 @@ export const handleIncomingMessage = async (bp: typeof sdk, payload: any) => {
           roomId: roomId,
           lastMessages: [
             {
-              text: messageText,
-              timestamp: new Date().toISOString(),
-              from: "user"
+              eventId: messageId,
+              incomingPreview: messageText,
+              replySource: 'user',
+              replyPreview: messageText,
+              timestamp: new Date(messageTime).toISOString()
             }
           ],
           workflows: {}
@@ -67,14 +69,23 @@ export const handleIncomingMessage = async (bp: typeof sdk, payload: any) => {
         bot: {},
         workflow: {
           eventId: messageId,
-          status: 'active'
-        }, // Workflow state
-        context: {}, // Add empty context object
+          status: 'active',
+          nodes: [],
+          history: [
+            {
+              eventId: messageId,
+              timestamp: new Date(messageTime).toISOString(),
+              type: 'incoming'
+            }
+          ]
+        },
+        context: {},
         __stacktrace: []
       },
       preview: messageText,
       id: messageId,
-      createdOn: messageTime,
+      createdOn: new Date(messageTime),
+      flags: {},
       hasFlag: () => false,
       setFlag: () => {}
     }
