@@ -55,12 +55,22 @@ export const handleIncomingMessage = async (bp: typeof sdk, payload: any) => {
         temp: {},
         session: {
           roomId: roomId,
-          lastMessages: [],
+          lastMessages: [
+            {
+              text: messageText,
+              timestamp: new Date().toISOString(),
+              from: "user"
+            }
+          ],
           workflows: {}
         },
         bot: {},
-        workflow: {},
-        __stacktrace: {}
+        workflow: {
+          eventId: messageId,
+          status: 'active'
+        }, // Workflow state
+        context: {}, // Add empty context object
+        __stacktrace: []
       },
       preview: messageText,
       id: messageId,
