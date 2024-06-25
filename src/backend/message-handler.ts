@@ -54,7 +54,9 @@ export const handleIncomingMessage = async (bp: typeof sdk, payload: any) => {
         },
         temp: {},
         session: {
-          roomId: roomId
+          roomId: roomId,
+          lastMessages: [],
+          workflows: []
         },
         bot: {},
         workflow: {},
