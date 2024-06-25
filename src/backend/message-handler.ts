@@ -55,8 +55,8 @@ export const handleIncomingMessage = async (bp: typeof sdk, payload: any) => {
       preview: messageText,
       id: messageId,
       createdOn: messageTime,
-      flags: {}
-    
+      hasFlag: () => false,
+      setFlag: () => {}
     }
 
     // Send the event to the Botpress server
