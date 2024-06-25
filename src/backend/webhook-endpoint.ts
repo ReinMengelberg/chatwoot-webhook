@@ -1,15 +1,15 @@
 import * as sdk from 'botpress/sdk'
 import { handleIncomingMessage } from './message-handler'
 
-const ALLOWED_HOST = '159.223.223.7' // Host allowed to send requests
+const ROCKETCHAT_TOKEN = "token1234"
 
 export const setupWebhookEndpoint = (bp: typeof sdk) => {
   const router = bp.http.createRouterForBot('rocketchat-webhook', { checkAuthentication: false })
 
   router.post('/endpoint', async (req, res) => {
-    const hostHeader = req.headers['Host']
+    const tokenHeader = req.headers['x-rocketchat-livechat-token']
 
-    if (!hostHeader || !hostHeader.includes(ALLOWED_HOST)) {
+    if (!hostHeader || !hostHeader.includes(ROCKETCHAT_TOKEN)) {
       res.status(403).send('Forbidden: Invalid Host')
       return
     }
