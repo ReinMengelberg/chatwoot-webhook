@@ -5,10 +5,17 @@ export const handleIncomingMessage = async (bp: typeof sdk, payload: any) => {
     const botId = payload.agent.username // botId is derived from the agent's username
     const userId = payload.visitor.username
     const userName = payload.visitor.name
-    const roomId = payload.messages.rid
-    const messageText = payload.messages.msg
-    const messageId = payload.messages._id
-    const messageTime = payload.messages.ts // Already in ISO 8601 format
+    
+    // Ensure messages is an array and access the first message
+    if (!Array.isArray(payload.messages) || payload.messages.length === 0) {
+      throw new Error('Messages array is missing or empty');
+    }
+
+    const message = payload.messages[0];
+    const roomId = message.rid;
+    const messageText = message.msg;
+    const messageId = message._id;
+    const messageTime = message.ts; 
 
     if (!botId || !userId || !userName || !roomId || !messageText) {
       throw new Error('Missing required payload fields')
