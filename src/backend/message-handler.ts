@@ -54,7 +54,6 @@ export const handleIncomingMessage = async (bp: typeof sdk, payload: any) => {
       threadId: roomId,
       id: messageId,
       preview: messageText,
-      flags: {},
       state: {
         __stacktrace: [],
         user: {
