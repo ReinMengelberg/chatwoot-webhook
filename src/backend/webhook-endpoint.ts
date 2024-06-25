@@ -9,8 +9,8 @@ export const setupWebhookEndpoint = (bp: typeof sdk) => {
   router.post('/endpoint', async (req, res) => {
     const tokenHeader = req.headers['x-rocketchat-livechat-token']
 
-    if (!hostHeader || !hostHeader.includes(ROCKETCHAT_TOKEN)) {
-      res.status(403).send('Forbidden: Invalid Host')
+    if (!tokenHeader || tokenHeader !== ROCKETCHAT_TOKEN) {
+      res.status(403).send('Forbidden: Invalid Token')
       return
     }
 
