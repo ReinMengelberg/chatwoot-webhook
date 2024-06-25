@@ -7,6 +7,8 @@ export const handleIncomingMessage = async (bp: typeof sdk, payload: any) => {
     const userName = payload.visitor.name
     const roomId = payload.messages.rid
     const messageText = payload.messages.msg
+    const messageId = payload.messages._id
+    const messageTime = payload.createdAt
 
     if (!botId || !userId || !userName || !roomId || !messageText) {
       throw new Error('Missing required payload fields')
@@ -31,7 +33,7 @@ export const handleIncomingMessage = async (bp: typeof sdk, payload: any) => {
     // Create or get the session ID
     const sessionId = bp.dialog.createId({
       botId: botId,
-      channelId: 'rocketchat',
+      channel: 'rocketchat',
       target: userId
     })
     
@@ -45,7 +47,16 @@ export const handleIncomingMessage = async (bp: typeof sdk, payload: any) => {
       payload: {
         text: messageText
       },
+      state: {
+        session: {
+          roomId: roomId
+        }
+      },
       preview: messageText,
+      id: messageId,
+      createdOn: messageTime,
+      flags: {}
+    
     }
 
     // Send the event to the Botpress server
