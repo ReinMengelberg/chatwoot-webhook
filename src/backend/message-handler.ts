@@ -72,13 +72,6 @@ export const handleIncomingMessage = async (bp: typeof sdk, payload: any) => {
         workflow: {
           eventId: messageId,
           status: 'active',
-          history: [
-            {
-              eventId: messageId,
-              timestamp: messageTime,
-              type: 'incoming'
-            }
-          ]
         }
       },
       suggestions: [],
