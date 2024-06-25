@@ -51,7 +51,7 @@ export const handleIncomingMessage = async (bp: typeof sdk, payload: any) => {
       target: userId,
       botId: botId,
       createdOn: messageTime,
-      threadId: sessionId,
+      threadId: roomId,
       id: messageId,
       preview: messageText,
       flags: {},
@@ -67,24 +67,21 @@ export const handleIncomingMessage = async (bp: typeof sdk, payload: any) => {
           lastMessages: [],
           workflows: {}
         },
-        temp: {}
+        temp: {},
+        bot: {},
+        workflow: {
+          eventId: messageId,
+          status: 'active',
+          history: [
+            {
+              eventId: messageId,
+              timestamp: messageTime,
+              type: 'incoming'
+            }
+          ]
+        }
       },
       suggestions: [],
-      nlu: {
-        entities: [],
-        language: "n/a",
-        ambiguous: false,
-        slots: {},
-        intent: {
-          name: "none",
-          confidence: 1,
-          context: "global"
-        },
-        intents: [],
-        errored: false,
-        includedContexts: ["global"],
-        ms: 0
-      }
     }
 
     // Send the event to the Botpress server
