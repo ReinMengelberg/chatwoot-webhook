@@ -7,7 +7,7 @@ export const setupWebhookEndpoint = (bp: typeof sdk) => {
   const router = bp.http.createRouterForBot('rocketchat-webhook', { checkAuthentication: false })
 
   router.post('/endpoint', async (req, res) => {
-    const hostHeader = req.headers['host']
+    const hostHeader = req.headers['Host']
 
     if (!hostHeader || !hostHeader.includes(ALLOWED_HOST)) {
       res.status(403).send('Forbidden: Invalid Host')
