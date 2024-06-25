@@ -8,7 +8,7 @@ export const handleIncomingMessage = async (bp: typeof sdk, payload: any) => {
     const roomId = payload.messages.rid
     const messageText = payload.messages.msg
     const messageId = payload.messages._id
-    const messageTime = payload.createdAt
+    const messageTime = payload.messages.ts // Already in ISO 8601 format
 
     if (!botId || !userId || !userName || !roomId || !messageText) {
       throw new Error('Missing required payload fields')
@@ -21,12 +21,12 @@ export const handleIncomingMessage = async (bp: typeof sdk, payload: any) => {
     const userMemory = await bp.users.getAttributes('rocketchat', userId)
 
     // Update user memory with userId if not already set
-    if (!userMemory.id) {
+    if (!userMemory.userId) {
       await bp.users.updateAttributes('rocketchat', userId, { userId: userId })
     }
 
     // Update user memory with userName if not already set
-    if (!userMemory.name) {
+    if (!userMemory.userName) {
       await bp.users.updateAttributes('rocketchat', userId, { userName: userName })
     }
 
@@ -39,55 +39,52 @@ export const handleIncomingMessage = async (bp: typeof sdk, payload: any) => {
     
     // Construct the event
     const event: sdk.IO.IncomingEvent = {
-      type: 'text',
-      channel: 'rocketchat',
+      type: "text",
+      channel: "rocketchat",
+      direction: "incoming",
+      payload: {
+        type: "text",
+        text: messageText,
+        timezone: 2, // Adjust if necessary
+        language: "nl" // Adjust if necessary
+      },
       target: userId,
       botId: botId,
-      direction: 'incoming',
-      payload: {
-        text: messageText
-      },
+      createdOn: messageTime,
+      threadId: sessionId,
+      id: messageId,
+      preview: messageText,
+      flags: {},
       state: {
+        __stacktrace: [],
         user: {
-          userId: userId,
-          userName: userName
-        },
-        temp: {},
-        session: {
-          roomId: roomId,
-          lastMessages: [
-            {
-              eventId: messageId,
-              incomingPreview: messageText,
-              replySource: 'user',
-              replyPreview: messageText,
-              timestamp: new Date(messageTime).toISOString()
-            }
-          ],
-          workflows: {}
-        },
-        bot: {},
-        workflow: {
-          eventId: messageId,
-          status: 'active',
-          nodes: [],
-          history: [
-            {
-              eventId: messageId,
-              timestamp: new Date(messageTime).toISOString(),
-              type: 'incoming'
-            }
-          ]
+          timezone: 2, // Adjust if necessary
+          language: "nl" // Adjust if necessary
         },
         context: {},
-        __stacktrace: []
+        session: {
+          roomId: roomId,
+          lastMessages: [],
+          workflows: {}
+        },
+        temp: {}
       },
-      preview: messageText,
-      id: messageId,
-      createdOn: new Date(messageTime),
-      flags: {},
-      hasFlag: () => false,
-      setFlag: () => {}
+      suggestions: [],
+      nlu: {
+        entities: [],
+        language: "n/a",
+        ambiguous: false,
+        slots: {},
+        intent: {
+          name: "none",
+          confidence: 1,
+          context: "global"
+        },
+        intents: [],
+        errored: false,
+        includedContexts: ["global"],
+        ms: 0
+      }
     }
 
     // Send the event to the Botpress server
