@@ -22,12 +22,12 @@ export const handleIncomingMessage = async (bp: typeof sdk, payload: any) => {
 
     // Update user memory with userId if not already set
     if (!userMemory.id) {
-      await bp.users.updateAttributes('rocketchat', userId, { id: userId })
+      await bp.users.updateAttributes('rocketchat', userId, { userId: userId })
     }
 
     // Update user memory with userName if not already set
     if (!userMemory.name) {
-      await bp.users.updateAttributes('rocketchat', userId, { name: userName })
+      await bp.users.updateAttributes('rocketchat', userId, { userName: userName })
     }
 
     // Create or get the session ID
@@ -48,9 +48,17 @@ export const handleIncomingMessage = async (bp: typeof sdk, payload: any) => {
         text: messageText
       },
       state: {
+        user: {
+          userId: userId,
+          userName: userName
+        },
+        temp: {},
         session: {
           roomId: roomId
-        }
+        },
+        bot: {},
+        workflow: {},
+        __stacktrace: {}
       },
       preview: messageText,
       id: messageId,
