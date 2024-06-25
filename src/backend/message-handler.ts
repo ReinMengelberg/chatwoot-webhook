@@ -86,7 +86,7 @@ export const handleIncomingMessage = async (bp: typeof sdk, payload: any) => {
     }
 
     // Send the event to the Botpress server
-    await bp.dialog.processEvent(sessionId, event)
+    await bp.dialog.sendEvent(event)
   } catch (error) {
     bp.logger.error('Error processing incoming message', error)
   }
