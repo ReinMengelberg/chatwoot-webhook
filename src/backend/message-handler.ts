@@ -66,12 +66,12 @@ export const handleIncomingMessage = async (bp: typeof sdk, payload: any) => {
         __stacktrace: [],
         user: {
           userId: userId,
+          userToken: userToken,
           timezone: 2, // Adjust if necessary
           language: "nl" // Adjust if necessary
         },
         context: {},
         session: {
-          roomId: roomId,
           lastMessages: [],
           workflows: {}
         },
