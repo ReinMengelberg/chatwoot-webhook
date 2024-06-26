@@ -65,6 +65,7 @@ export const handleIncomingMessage = async (bp: typeof sdk, payload: any) => {
       state: {
         __stacktrace: [],
         user: {
+          userId: userId,
           timezone: 2, // Adjust if necessary
           language: "nl" // Adjust if necessary
         },
