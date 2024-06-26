@@ -36,13 +36,6 @@ export const handleIncomingMessage = async (bp: typeof sdk, payload: any) => {
     if (!userMemory.userName) {
       await bp.users.updateAttributes('rocketchat', userId, { userName: userName })
     }
-
-    // Create or get the session ID
-    const sessionId = bp.dialog.createId({
-      botId: botId,
-      channel: 'rocketchat',
-      target: userId
-    })
     
     // Construct the event
     const event: sdk.IO.IncomingEvent = {
@@ -58,7 +51,6 @@ export const handleIncomingMessage = async (bp: typeof sdk, payload: any) => {
       target: userId,
       botId: botId,
       createdOn: messageTime,
-      sessionId: sessionId,
       threadId: roomId,
       id: messageId,
       preview: messageText,
@@ -87,7 +79,7 @@ export const handleIncomingMessage = async (bp: typeof sdk, payload: any) => {
     }
 
     // Send the event to the Botpress server
-    await bp.dialog.sendEvent(event)
+    await bp.events.sendEvent(event)
   } catch (error) {
     bp.logger.error('Error processing incoming message', error)
   }
