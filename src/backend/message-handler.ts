@@ -5,6 +5,7 @@ export const handleIncomingMessage = async (bp: typeof sdk, payload: any) => {
     const botId = payload.agent.username // botId is derived from the agent's username
     const userId = payload.visitor.username
     const userName = payload.visitor.name
+    const userToken = payload.visitor.token
     
     // Ensure messages is an array and access the first message
     if (!Array.isArray(payload.messages) || payload.messages.length === 0) {
@@ -35,6 +36,11 @@ export const handleIncomingMessage = async (bp: typeof sdk, payload: any) => {
     // Update user memory with userName if not already set
     if (!userMemory.userName) {
       await bp.users.updateAttributes('rocketchat', userId, { userName: userName })
+    }
+
+    // Update user memory with userName if not already set
+    if (!userMemory.userName) {
+      await bp.users.updateAttributes('rocketchat', userId, { userToken: userToken })
     }
     
     // Construct the event
