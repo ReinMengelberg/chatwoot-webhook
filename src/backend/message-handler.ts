@@ -3,6 +3,7 @@ import * as sdk from 'botpress/sdk'
 export const handleIncomingMessage = async (bp: typeof sdk, payload: any) => {
   try {
     const botId = payload.agent.username // botId is derived from the agent's username
+    const roomId = payload._id;
     const userId = payload.visitor.username
     const userName = payload.visitor.name
     const userToken = payload.visitor.token
@@ -13,7 +14,6 @@ export const handleIncomingMessage = async (bp: typeof sdk, payload: any) => {
     }
 
     const message = payload.messages[0];
-    const roomId = message.rid;
     const messageText = message.msg;
     const messageId = message._id;
     const messageTime = message.ts; 
