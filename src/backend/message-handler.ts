@@ -58,6 +58,7 @@ export const handleIncomingMessage = async (bp: typeof sdk, payload: any) => {
       target: userId,
       botId: botId,
       createdOn: messageTime,
+      sessionId: sessionId,
       threadId: roomId,
       id: messageId,
       preview: messageText,
