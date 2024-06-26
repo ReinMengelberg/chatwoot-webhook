@@ -38,8 +38,8 @@ export const handleIncomingMessage = async (bp: typeof sdk, payload: any) => {
       await bp.users.updateAttributes('rocketchat', userId, { userName: userName })
     }
 
-    // Update user memory with userName if not already set
-    if (!userMemory.userName) {
+    // Update user memory with userToken if not already set
+    if (!userMemory.userToken) {
       await bp.users.updateAttributes('rocketchat', userId, { userToken: userToken })
     }
     
