@@ -1,5 +1,6 @@
 import * as sdk from 'botpress/sdk'
 import { setupWebhookEndpoint } from './webhook-endpoint'
+import { setupAPIEndpoint } from './api-endpoint'
 
 // This is called when the server is started, usually to set up the database
 const onServerStarted = async (bp: typeof sdk) => {}
@@ -8,6 +9,8 @@ const onServerStarted = async (bp: typeof sdk) => {}
 const onServerReady = async (bp: typeof sdk) => {
   // Setup the webhook endpoint
   setupWebhookEndpoint(bp)
+  // Setup the API endpoint
+  setupAPIEndpoint(bp)
 }
 
 // Every time a bot is created (or enabled), this method will be called with the bot id
