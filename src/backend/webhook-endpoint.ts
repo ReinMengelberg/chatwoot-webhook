@@ -6,7 +6,7 @@ const ROCKETCHAT_TOKEN = "U8rL3F9nqzW1YbD7xM2aNvK6eX0pJcQ4sT5hZjVwP8mL1yRq"
 export const setupWebhookEndpoint = (bp: typeof sdk) => {
   const router = bp.http.createRouterForBot('rocketchat-webhook', { checkAuthentication: false })
 
-  router.post('/endpoint', async (req, res) => {
+  router.post('/webhook-endpoint', async (req, res) => {
     const tokenHeader = req.headers['x-rocketchat-livechat-token']
 
     if (!tokenHeader || tokenHeader !== ROCKETCHAT_TOKEN) {
