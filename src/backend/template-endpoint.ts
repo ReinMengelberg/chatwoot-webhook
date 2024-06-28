@@ -3,7 +3,7 @@ import { handleOutgoingTemplate } from './template-handler'
 
 const ROCKETCHAT_TOKEN = "U8rL3F9nqzW1YbD7xM2aNvK6eX0pJcQ4sT5hZjVwP8mL1yRq"
 
-export const setupWebhookEndpoint = (bp: typeof sdk) => {
+export const setupTemplateEndpoint = (bp: typeof sdk) => {
   const router = bp.http.createRouterForBot('rocketchat-webhook', { checkAuthentication: false })
 
   router.post('/template-endpoint', async (req, res) => {
