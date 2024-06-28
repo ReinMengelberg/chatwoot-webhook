@@ -14,6 +14,8 @@ export const setupMessageEndpoint = (bp: typeof sdk) => {
       return
     }
 
+    // CHECK EVENT 
+
     const { messages, agent, visitor } = req.body
 
     if (!messages || !agent || !visitor) {
