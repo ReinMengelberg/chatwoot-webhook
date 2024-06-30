@@ -7,7 +7,6 @@ export const handleOutgoingTemplate = async (bp: typeof sdk, payload: any) => {
     const botId = 'template-sender'
   }
   
-    
   try {
     const medium = payload.medium
     const userId = payload.visitor.userId
