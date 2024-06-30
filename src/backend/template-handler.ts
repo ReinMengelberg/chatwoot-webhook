@@ -6,6 +6,7 @@ export const handleOutgoingTemplate = async (bp: typeof sdk, payload: any) => {
 
   if (payload.agent.username.startsWith('aiex')) {
     botId = payload.agent.username; // botId is derived from the agent's username
+    agentId = payload.agent.username;
   } else {
     botId = 'template-sender';
     agentId = payload.agent.username;
