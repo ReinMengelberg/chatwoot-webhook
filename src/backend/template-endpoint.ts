@@ -10,20 +10,25 @@ export const setupTemplateEndpoint = (bp: typeof sdk) => {
     const tokenHeader = req.headers['x-rocketchat-livechat-token']
 
     if (!tokenHeader || tokenHeader !== ROCKETCHAT_TOKEN) {
+      bp.logger.error('Invalid or missing Rocket.Chat token')
       res.status(403).send('Forbidden: Invalid Token')
       return
     }
 
-    // CHECK EVENT 
-    
     const { medium, template, agent, visitor } = req.body
 
-    if (!medium || !template || !agent || !user) {
+    if (!medium || !template || !agent || !visitor) {
+      bp.logger.error('Invalid request payload: medium, template, agent, and visitor are required')
       res.status(400).send('medium, template, agent, and visitor are required')
       return
     }
 
-    await handleIncomingMessage(bp, req.body)
-    res.status(200).send('Payload processed')
+    try {
+      await handleOutgoingTemplate(bp, req.body)
+      res.status(200).send('Payload processed')
+    } catch (error) {
+      bp.logger.error('Error handling outgoing template', error)
+      res.status(500).send('Internal Server Error')
+    }
   })
 }
