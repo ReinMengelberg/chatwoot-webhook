@@ -19,6 +19,7 @@ export const handleOutgoingTemplate = async (bp: typeof sdk, payload: any) => {
 
     const namespace = payload.template.namespace;
     const templateId = payload.template.id;
+    const languageCode = payload.template.languageCode
     const variables = {
       variable_2: payload.template.variable_2,
       variable_3: payload.template.variable_3,
@@ -91,6 +92,7 @@ export const handleOutgoingTemplate = async (bp: typeof sdk, payload: any) => {
           agentId: agentId,
           namespace: namespace,
           template: templateId,
+          languageCode: languageCode,
           ...variables,
         },
         bot: {},
