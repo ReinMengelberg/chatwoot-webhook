@@ -16,10 +16,10 @@ export const setupTemplateEndpoint = (bp: typeof sdk) => {
 
     // CHECK EVENT 
     
-    const { template, agent, visitor } = req.body
+    const { medium, template, agent, visitor } = req.body
 
-    if (!template || !agent || !user) {
-      res.status(400).send('template, agent, and visitor are required')
+    if (!medium || !template || !agent || !user) {
+      res.status(400).send('medium, template, agent, and visitor are required')
       return
     }
 
