@@ -6,7 +6,6 @@ export const handleIncomingMessage = async (bp: typeof sdk, payload: any) => {
     const roomId = payload._id;
     const userId = payload.visitor.username
     const userName = payload.visitor.name
-    const userToken = payload.visitor.token
     
     // Ensure messages is an array and access the first message
     if (!Array.isArray(payload.messages) || payload.messages.length === 0) {
@@ -37,11 +36,6 @@ export const handleIncomingMessage = async (bp: typeof sdk, payload: any) => {
     if (!userMemory.userName) {
       await bp.users.updateAttributes('rocketchat', userId, { userName: userName })
     }
-
-    // Update user memory with userToken if not already set
-    if (!userMemory.userToken) {
-      await bp.users.updateAttributes('rocketchat', userId, { userToken: userToken })
-    }
     
     // Construct the event
     const event: sdk.IO.IncomingEvent = {
@@ -67,7 +61,6 @@ export const handleIncomingMessage = async (bp: typeof sdk, payload: any) => {
         user: {
           userId: userId,
           userName: userName,
-          userToken: userToken,
           timezone: 2, // Adjust if necessary
           language: "nl" // Adjust if necessary
         },
