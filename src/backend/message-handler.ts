@@ -6,6 +6,24 @@ export const handleIncomingMessage = async (bp: typeof sdk, payload: any) => {
     const roomId = payload._id;
     const userId = payload.visitor.username
     const userName = payload.visitor.name
+
+    if botId.includes("email") {
+      const medium = "email"
+    }
+    if botId.includes("whatsapp") {
+      const medium = "whatsapp"
+    }
+    if botId.includes("instagram") {
+      const medium = "instagram"
+    }
+    if botId.includes("messenger") {
+      const medium = "messenger"
+    }
+    if botId.includes("linkedin") {
+      const medium = "linkedin"
+    } else {
+      const medium = "undefined"
+    }
     
     // Ensure messages is an array and access the first message
     if (!Array.isArray(payload.messages) || payload.messages.length === 0) {
@@ -27,6 +45,11 @@ export const handleIncomingMessage = async (bp: typeof sdk, payload: any) => {
     // Fetch user memory
     const userMemory = await bp.users.getAttributes('rocketchat', userId)
 
+    // Update user memory with medium if not already set
+    if (!userMemory.medium) {
+      await bp.users.updateAttributes('rocketchat', userId, { medium: medium })
+    }
+    
     // Update user memory with userId if not already set
     if (!userMemory.userId) {
       await bp.users.updateAttributes('rocketchat', userId, { userId: userId })
@@ -59,6 +82,7 @@ export const handleIncomingMessage = async (bp: typeof sdk, payload: any) => {
       state: {
         __stacktrace: [],
         user: {
+          medium: medium,
           userId: userId,
           userName: userName,
           timezone: 2, // Adjust if necessary
