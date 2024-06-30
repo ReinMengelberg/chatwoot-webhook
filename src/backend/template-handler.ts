@@ -2,11 +2,13 @@ import * as sdk from 'botpress/sdk';
 
 export const handleOutgoingTemplate = async (bp: typeof sdk, payload: any) => {
   let botId;
+  let agentId;
+
   if (payload.agent.username.startsWith('aiex')) {
     botId = payload.agent.username; // botId is derived from the agent's username
   } else {
     botId = 'template-sender';
-    const agentId: payload.agent.username;
+    agentId = payload.agent.username;
   }
   
   try {
@@ -27,7 +29,7 @@ export const handleOutgoingTemplate = async (bp: typeof sdk, payload: any) => {
       variable_8: payload.template.variable_8
     };
 
-    const messageId = `${medium}_${templateId}_${userId}_${messageTime}`;
+    const messageId = `${medium}_${templateId}_${userId}_${messageTime.toISOString()}`;
 
     if (!botId || !medium || !userId || !userName || !namespace || !templateId) {
       throw new Error('Missing required payload fields');
@@ -70,7 +72,7 @@ export const handleOutgoingTemplate = async (bp: typeof sdk, payload: any) => {
       id: messageId,
       preview: "template",
       hasFlag: () => false,
-      setFlag: () => {}, 
+      setFlag: () => {},
       state: {
         __stacktrace: [],
         user: {
@@ -98,12 +100,13 @@ export const handleOutgoingTemplate = async (bp: typeof sdk, payload: any) => {
         }
       },
       suggestions: [],
-    }
+    };
 
     // Send the event to the Botpress server
     await bp.events.sendEvent(event);
   } catch (error) {
     bp.logger.error('Error processing outgoing template', error);
   }
-}
+};
+
 
