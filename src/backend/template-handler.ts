@@ -9,12 +9,22 @@ export const handleOutgoingTemplate = async (bp: typeof sdk, payload: any) => {
   
     
   try {
+    const medium = payload.medium
     const userId = payload.visitor.userId
     const userName = payload.visitor.name
+    const messageTime = new Date().toISOString()
 
-    const 
+    const namespace = payload.template.namespace
+    const templateId = payload.template.id
+    const variable_2 = payload.template.variable_2
+    const variable_3 = payload.template.variable_3
+    const variable_4 = payload.template.variable_4
+    const variable_5 = payload.template.variable_5
+    const variable_6 = payload.template.variable_6
+    const variable_7 = payload.template.variable_7
+    const variable_8 = payload.template.variable_8
 
-    if (!botId || !userId || !userName || !roomId || !messageText) {
+    if (!botId || !medium || !userId || !userName || !namespace || !templateId) {
       throw new Error('Missing required payload fields')
     }
     
@@ -25,6 +35,10 @@ export const handleOutgoingTemplate = async (bp: typeof sdk, payload: any) => {
     const userMemory = await bp.users.getAttributes('rocketchat', userId)
 
     // Update user memory with userId if not already set
+    if (!userMemory.medium) {
+      await bp.users.updateAttributes('rocketchat', userId, { medium: medium })
+    }
+    
     if (!userMemory.userId) {
       await bp.users.updateAttributes('rocketchat', userId, { userId: userId })
     }
@@ -32,11 +46,6 @@ export const handleOutgoingTemplate = async (bp: typeof sdk, payload: any) => {
     // Update user memory with userName if not already set
     if (!userMemory.userName) {
       await bp.users.updateAttributes('rocketchat', userId, { userName: userName })
-    }
-
-    // Update user memory with userToken if not already set
-    if (!userMemory.userToken) {
-      await bp.users.updateAttributes('rocketchat', userId, { userToken: userToken })
     }
     
     // Construct the event
@@ -46,24 +55,24 @@ export const handleOutgoingTemplate = async (bp: typeof sdk, payload: any) => {
       direction: "incoming",
       payload: {
         type: "text",
-        text: messageText,
+        text: "template",
         timezone: 2, // Adjust if necessary
         language: "nl" // Adjust if necessary
       },
       target: userId,
       botId: botId,
       createdOn: messageTime,
-      threadId: roomId,
+      threadId: "",
       id: messageId,
-      preview: messageText,
+      preview: "template",
       hasFlag: () => false,
       setFlag: () => {}, 
       state: {
         __stacktrace: [],
         user: {
+          medium: medium,
           userId: userId,
           userName: userName,
-          userToken: userToken,
           timezone: 2, // Adjust if necessary
           language: "nl" // Adjust if necessary
         },
