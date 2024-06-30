@@ -16,15 +16,10 @@ export const setupTemplateEndpoint = (bp: typeof sdk) => {
 
     // CHECK EVENT 
     
-    const { messages, agent, visitor } = req.body
+    const { template, agent, visitor } = req.body
 
-    if (!messages || !agent || !visitor) {
-      res.status(400).send('messages, agent, and visitor are required')
-      return
-    }
-
-    if (!agent.username.startsWith('aiex')) {
-      res.status(200).send('Agent username does not match criteria, ignoring message')
+    if (!template || !agent || !user) {
+      res.status(400).send('template, agent, and visitor are required')
       return
     }
 
