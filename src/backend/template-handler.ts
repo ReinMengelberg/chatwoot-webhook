@@ -1,52 +1,52 @@
-import * as sdk from 'botpress/sdk'
+import * as sdk from 'botpress/sdk';
 
 export const handleOutgoingTemplate = async (bp: typeof sdk, payload: any) => {
+  let botId;
   if (payload.agent.username.startsWith('aiex')) {
-    const botId = payload.agent.username // botId is derived from the agent's username
+    botId = payload.agent.username; // botId is derived from the agent's username
   } else {
-    const botId = 'template-sender'
+    botId = 'template-sender';
   }
   
   try {
-    const medium = payload.medium
-    const userId = payload.visitor.userId
-    const userName = payload.visitor.name
-    const messageTime = new Date().toISOString()
+    const medium = payload.medium;
+    const userId = payload.visitor.userId;
+    const userName = payload.visitor.name;
+    const messageTime = new Date().toISOString();
 
-    const namespace = payload.template.namespace
-    const templateId = payload.template.id
-    const variable_2 = payload.template.variable_2
-    const variable_3 = payload.template.variable_3
-    const variable_4 = payload.template.variable_4
-    const variable_5 = payload.template.variable_5
-    const variable_6 = payload.template.variable_6
-    const variable_7 = payload.template.variable_7
-    const variable_8 = payload.template.variable_8
+    const namespace = payload.template.namespace;
+    const templateId = payload.template.id;
+    const variable_2 = payload.template.variable_2;
+    const variable_3 = payload.template.variable_3;
+    const variable_4 = payload.template.variable_4;
+    const variable_5 = payload.template.variable_5;
+    const variable_6 = payload.template.variable_6;
+    const variable_7 = payload.template.variable_7;
+    const variable_8 = payload.template.variable_8;
 
-    const messageId = `${medium}_${templateId}_${userId}_${timestamp}`
+    const messageId = `${medium}_${templateId}_${userId}_${messageTime}`;
 
     if (!botId || !medium || !userId || !userName || !namespace || !templateId) {
-      throw new Error('Missing required payload fields')
+      throw new Error('Missing required payload fields');
     }
     
     // Check if the user exists
-    let user = await bp.users.getOrCreateUser('rocketchat', userId)
+    let user = await bp.users.getOrCreateUser('rocketchat', userId);
     
     // Fetch user memory
-    const userMemory = await bp.users.getAttributes('rocketchat', userId)
+    const userMemory = await bp.users.getAttributes('rocketchat', userId);
 
-    // Update user memory with userId if not already set
+    // Update user memory with medium, userId, and userName if not already set
     if (!userMemory.medium) {
-      await bp.users.updateAttributes('rocketchat', userId, { medium: medium })
-    }
-    
-    if (!userMemory.userId) {
-      await bp.users.updateAttributes('rocketchat', userId, { userId: userId })
+      await bp.users.updateAttributes('rocketchat', userId, { medium: medium });
     }
 
-    // Update user memory with userName if not already set
+    if (!userMemory.userId) {
+      await bp.users.updateAttributes('rocketchat', userId, { userId: userId });
+    }
+
     if (!userMemory.userName) {
-      await bp.users.updateAttributes('rocketchat', userId, { userName: userName })
+      await bp.users.updateAttributes('rocketchat', userId, { userName: userName });
     }
     
     // Construct the event
@@ -84,7 +84,7 @@ export const handleOutgoingTemplate = async (bp: typeof sdk, payload: any) => {
         },
         temp: {
           namespace: namespace,
-          template: template,
+          template: templateId,
           variable_2: variable_2,
           variable_3: variable_3,
           variable_4: variable_4,
@@ -103,8 +103,9 @@ export const handleOutgoingTemplate = async (bp: typeof sdk, payload: any) => {
     }
 
     // Send the event to the Botpress server
-    await bp.events.sendEvent(event)
+    await bp.events.sendEvent(event);
   } catch (error) {
-    bp.logger.error('Error processing incoming message', error)
+    bp.logger.error('Error processing incoming message', error);
   }
 }
+
