@@ -3,6 +3,7 @@ import * as sdk from 'botpress/sdk';
 export const handleOutgoingTemplate = async (bp: typeof sdk, payload: any) => {
   let botId;
   let agentId;
+  let departmentId;
 
   if (payload.agent.username.startsWith('aiex')) {
     botId = payload.agent.username; // botId is derived from the agent's username
