@@ -7,9 +7,11 @@ export const handleOutgoingTemplate = async (bp: typeof sdk, payload: any) => {
   if (payload.agent.username.startsWith('aiex')) {
     botId = payload.agent.username; // botId is derived from the agent's username
     agentId = payload.agent.username;
+    departmentId = payload.agent.department
   } else {
     botId = 'template-sender';
     agentId = payload.agent.username;
+    departmentId = payload.agent.department
   }
   
   try {
@@ -78,9 +80,9 @@ export const handleOutgoingTemplate = async (bp: typeof sdk, payload: any) => {
       state: {
         __stacktrace: [],
         user: {
-          medium,
-          userId,
-          userName,
+          medium: medium,
+          userId: userId,
+          userName: userName,
           timezone: 2, // Adjust if necessary
           language: "nl" // Adjust if necessary
         },
@@ -91,6 +93,7 @@ export const handleOutgoingTemplate = async (bp: typeof sdk, payload: any) => {
         },
         temp: {
           agentId: agentId,
+          departmentId: departmentId,
           namespace: namespace,
           template: templateId,
           languageCode: languageCode,
