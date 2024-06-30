@@ -24,6 +24,8 @@ export const handleOutgoingTemplate = async (bp: typeof sdk, payload: any) => {
     const variable_7 = payload.template.variable_7
     const variable_8 = payload.template.variable_8
 
+    const messageId = `${medium}_${templateId}_${userId}_${timestamp}`
+
     if (!botId || !medium || !userId || !userName || !namespace || !templateId) {
       throw new Error('Missing required payload fields')
     }
@@ -81,7 +83,17 @@ export const handleOutgoingTemplate = async (bp: typeof sdk, payload: any) => {
           lastMessages: [],
           workflows: {}
         },
-        temp: {},
+        temp: {
+          namespace: namespace,
+          template: template,
+          variable_2: variable_2,
+          variable_3: variable_3,
+          variable_4: variable_4,
+          variable_5: variable_5,
+          variable_6: variable_6,
+          variable_7: variable_7,
+          variable_8: variable_8,
+        },
         bot: {},
         workflow: {
           eventId: messageId,
