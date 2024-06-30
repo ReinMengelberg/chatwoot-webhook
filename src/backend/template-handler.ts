@@ -12,7 +12,7 @@ export const handleOutgoingTemplate = async (bp: typeof sdk, payload: any) => {
     const medium = payload.medium;
     const userId = payload.visitor.userId;
     const userName = payload.visitor.name;
-    const messageTime = new Date().toISOString();
+    const messageTime = new Date();
 
     const namespace = payload.template.namespace;
     const templateId = payload.template.id;
