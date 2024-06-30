@@ -6,6 +6,7 @@ export const handleOutgoingTemplate = async (bp: typeof sdk, payload: any) => {
     botId = payload.agent.username; // botId is derived from the agent's username
   } else {
     botId = 'template-sender';
+    const agentId: payload.agent.username;
   }
   
   try {
@@ -85,7 +86,8 @@ export const handleOutgoingTemplate = async (bp: typeof sdk, payload: any) => {
           workflows: {}
         },
         temp: {
-          namespace,
+          agentId: agentId,
+          namespace: namespace,
           template: templateId,
           ...variables,
         },
