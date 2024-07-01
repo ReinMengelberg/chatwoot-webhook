@@ -87,7 +87,8 @@ export const handleOutgoingTemplate = async (bp: typeof sdk, payload: any) => {
         type: 'text',
         text: 'template',
         timezone: 2, // Adjust if necessary
-        language: 'nl' // Adjust if necessary
+        language: 'nl', // Adjust if necessary
+        templateData: templateData
       },
       target: userId,
       botId: botId,
@@ -111,7 +112,7 @@ export const handleOutgoingTemplate = async (bp: typeof sdk, payload: any) => {
           lastMessages: [],
           workflows: {}
         },
-        temp: templateData,
+        temp: {},
         bot: {},
         workflow: {
           eventId: messageId,
