@@ -109,7 +109,7 @@ export const handleOutgoingTemplate = async (bp: typeof sdk, payload: any) => {
         bot: {},
         workflow: {
           eventId: messageId,
-          status: 'active',
+          status: 'active'
         }
       },
       suggestions: [],
