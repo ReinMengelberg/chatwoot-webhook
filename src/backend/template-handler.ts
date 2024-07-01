@@ -58,25 +58,24 @@ export const handleOutgoingTemplate = async (bp: typeof sdk, payload: any) => {
       await bp.users.updateAttributes('rocketchat', userId, { userName });
     }
 
-    // Define the temp state
-    const tempState: Record<string, any> = {};
+    // Define the template data and only include non-empty values
+    const templateData: Record<string, any> = {};
 
-    // Only include non-empty values
-    if (agentId) tempState.agentId = agentId;
-    if (departmentId) tempState.departmentId = departmentId;
-    if (namespace) tempState.namespace = namespace;
-    if (templateId) tempState.templateId = templateId;
-    if (languageCode) tempState.languageCode = languageCode;
-    if (variable_2) tempState.variable_2 = variable_2;
-    if (variable_3) tempState.variable_3 = variable_3;
-    if (variable_4) tempState.variable_4 = variable_4;
-    if (variable_5) tempState.variable_5 = variable_5;
-    if (variable_6) tempState.variable_6 = variable_6;
-    if (variable_7) tempState.variable_7 = variable_7;
-    if (variable_8) tempState.variable_8 = variable_8;
+    if (agentId) templateData.agentId = agentId;
+    if (departmentId) templateData.departmentId = departmentId;
+    if (namespace) templateData.namespace = namespace;
+    if (templateId) templateData.templateId = templateId;
+    if (languageCode) templateData.languageCode = languageCode;
+    if (variable_2) templateData.variable_2 = variable_2;
+    if (variable_3) templateData.variable_3 = variable_3;
+    if (variable_4) templateData.variable_4 = variable_4;
+    if (variable_5) templateData.variable_5 = variable_5;
+    if (variable_6) templateData.variable_6 = variable_6;
+    if (variable_7) templateData.variable_7 = variable_7;
+    if (variable_8) templateData.variable_8 = variable_8;
 
-    // Log temp variables before constructing the event
-    bp.logger.info('Temp state to be set:', JSON.stringify(tempState, null, 2));
+    // Log templateData before constructing the event
+    bp.logger.info('templateData to be set:', JSON.stringify(templateData, null, 2));
 
     // Construct the event
     const event: sdk.IO.IncomingEvent = {
@@ -106,12 +105,14 @@ export const handleOutgoingTemplate = async (bp: typeof sdk, payload: any) => {
           timezone: 2, // Adjust if necessary
           language: 'nl' // Adjust if necessary
         },
-        context: {},
+        context: {
+          templateData: templateData
+        },
         session: {
           lastMessages: [],
           workflows: {}
         },
-        temp: tempState,
+        temp: {},
         bot: {},
         workflow: {
           eventId: messageId,
