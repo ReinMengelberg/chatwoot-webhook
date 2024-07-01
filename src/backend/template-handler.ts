@@ -105,10 +105,9 @@ export const handleOutgoingTemplate = async (bp: typeof sdk, payload: any) => {
           timezone: 2, // Adjust if necessary
           language: 'nl' // Adjust if necessary
         },
-        context: {
-          templateData: templateData
-        },
+        context: {},
         session: {
+          templateData: templateData,
           lastMessages: [],
           workflows: {}
         },
