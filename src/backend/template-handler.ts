@@ -59,20 +59,21 @@ export const handleOutgoingTemplate = async (bp: typeof sdk, payload: any) => {
     }
 
     // Define the temp state
-    const tempState = {
-      agentId: agentId,
-      departmentId: departmentId,
-      namespace: namespace,
-      templateId: templateId,
-      languageCode: languageCode,
-      variable_2: variable_2,
-      variable_3: variable_3,
-      variable_4: variable_4,
-      variable_5: variable_5,
-      variable_6: variable_6,
-      variable_7: variable_7,
-      variable_8: variable_8
-    };
+    const tempState: Record<string, any> = {};
+
+    // Only include non-empty values
+    if (agentId) tempState.agentId = agentId;
+    if (departmentId) tempState.departmentId = departmentId;
+    if (namespace) tempState.namespace = namespace;
+    if (templateId) tempState.templateId = templateId;
+    if (languageCode) tempState.languageCode = languageCode;
+    if (variable_2) tempState.variable_2 = variable_2;
+    if (variable_3) tempState.variable_3 = variable_3;
+    if (variable_4) tempState.variable_4 = variable_4;
+    if (variable_5) tempState.variable_5 = variable_5;
+    if (variable_6) tempState.variable_6 = variable_6;
+    if (variable_7) tempState.variable_7 = variable_7;
+    if (variable_8) tempState.variable_8 = variable_8;
 
     // Log temp variables before constructing the event
     bp.logger.info('Temp state to be set:', JSON.stringify(tempState, null, 2));
@@ -120,12 +121,19 @@ export const handleOutgoingTemplate = async (bp: typeof sdk, payload: any) => {
       suggestions: []
     };
 
+    // Log the entire event object for debugging
+    bp.logger.info('Constructed event:', JSON.stringify(event, null, 2));
+
     // Send the event to the Botpress server
     await bp.events.sendEvent(event);
+    
+    // Log after sending the event to ensure it was sent
+    bp.logger.info('Event sent to Botpress server successfully');
   } catch (error) {
     bp.logger.error('Error processing outgoing template', error);
   }
 };
+
 
 
 
