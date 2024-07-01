@@ -33,21 +33,6 @@ export const handleOutgoingTemplate = async (bp: typeof sdk, payload: any) => {
     const variable_7 = payload.template.variable_7;
     const variable_8 = payload.template.variable_8;
 
-    // Log temp variables before constructing the event
-    bp.logger.info(`Temp variables to be set: 
-      agentId=${agentId}, 
-      departmentId=${departmentId}, 
-      namespace=${namespace}, 
-      templateId=${templateId}, 
-      languageCode=${languageCode}, 
-      variable_2=${variable_2}, 
-      variable_3=${variable_3}, 
-      variable_4=${variable_4}, 
-      variable_5=${variable_5}, 
-      variable_6=${variable_6}, 
-      variable_7=${variable_7}, 
-      variable_8=${variable_8}`);
-
     const messageId = `${medium}_${templateId}_${userId}_${messageTime.getTime()}`;
 
     if (!botId || !medium || !userId || !userName || !namespace || !templateId) {
@@ -72,6 +57,25 @@ export const handleOutgoingTemplate = async (bp: typeof sdk, payload: any) => {
     if (!userMemory.userName) {
       await bp.users.updateAttributes('rocketchat', userId, { userName });
     }
+
+    // Define the temp state
+    const tempState = {
+      agentId: agentId,
+      departmentId: departmentId,
+      namespace: namespace,
+      templateId: templateId,
+      languageCode: languageCode,
+      variable_2: variable_2,
+      variable_3: variable_3,
+      variable_4: variable_4,
+      variable_5: variable_5,
+      variable_6: variable_6,
+      variable_7: variable_7,
+      variable_8: variable_8
+    };
+
+    // Log temp variables before constructing the event
+    bp.logger.info('Temp state to be set:', JSON.stringify(tempState, null, 2));
 
     // Construct the event
     const event: sdk.IO.IncomingEvent = {
@@ -106,20 +110,7 @@ export const handleOutgoingTemplate = async (bp: typeof sdk, payload: any) => {
           lastMessages: [],
           workflows: {}
         },
-        temp: {
-          agentId: agentId,
-          departmentId: departmentId,
-          namespace: namespace,
-          template: templateId,
-          languageCode: languageCode,
-          variable_2: variable_2,
-          variable_3: variable_3,
-          variable_4: variable_4,
-          variable_5: variable_5,
-          variable_6: variable_6,
-          variable_7: variable_7,
-          variable_8: variable_8
-        },
+        temp: tempState,
         bot: {},
         workflow: {
           eventId: messageId,
