@@ -24,14 +24,14 @@ export const handleOutgoingTemplate = async (bp: typeof sdk, payload: any) => {
     const namespace = payload.template.namespace;
     const templateId = payload.template.id;
     const languageCode = payload.template.languageCode
-    const variables = {
-      variable_2: payload.template.variable_2,
-      variable_3: payload.template.variable_3,
-      variable_4: payload.template.variable_4,
-      variable_5: payload.template.variable_5,
-      variable_6: payload.template.variable_6,
-      variable_7: payload.template.variable_7,
-      variable_8: payload.template.variable_8
+    
+    const variable_2: payload.template.variable_2,
+    const variable_3: payload.template.variable_3,
+    const variable_4: payload.template.variable_4,
+    const variable_5: payload.template.variable_5,
+    const variable_6: payload.template.variable_6,
+    const variable_7: payload.template.variable_7,
+    const variable_8: payload.template.variable_8
     };
 
     const messageId = `${medium}_${templateId}_${userId}_${messageTime.toISOString()}`;
@@ -98,7 +98,13 @@ export const handleOutgoingTemplate = async (bp: typeof sdk, payload: any) => {
           namespace: namespace,
           template: templateId,
           languageCode: languageCode,
-          ...variables,
+          variable_2: variable_2,
+          variable_3: variable_3,
+          variable_4: variable_4,
+          variable_5: variable_5,
+          variable_6: variable_6,
+          variable_7: variable_7,
+          variable_8: variable_8,
         },
         bot: {},
         workflow: {
