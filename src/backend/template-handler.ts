@@ -8,13 +8,13 @@ export const handleOutgoingTemplate = async (bp: typeof sdk, payload: any) => {
   if (payload.agent.username.startsWith('aiex')) {
     botId = payload.agent.username; // botId is derived from the agent's username
     agentId = payload.agent.username;
-    departmentId = payload.agent.department
+    departmentId = payload.agent.department;
   } else {
     botId = 'template-sender';
     agentId = payload.agent.username;
-    departmentId = payload.agent.department
+    departmentId = payload.agent.department;
   }
-  
+
   try {
     const medium = payload.medium;
     const userId = payload.visitor.userId;
@@ -23,26 +23,25 @@ export const handleOutgoingTemplate = async (bp: typeof sdk, payload: any) => {
 
     const namespace = payload.template.namespace;
     const templateId = payload.template.id;
-    const languageCode = payload.template.languageCode
-    
-    const variable_2: payload.template.variable_2
-    const variable_3: payload.template.variable_3
-    const variable_4: payload.template.variable_4
-    const variable_5: payload.template.variable_5
-    const variable_6: payload.template.variable_6
-    const variable_7: payload.template.variable_7
-    const variable_8: payload.template.variable_8
-    };
+    const languageCode = payload.template.languageCode;
+
+    const variable_2 = payload.template.variable_2;
+    const variable_3 = payload.template.variable_3;
+    const variable_4 = payload.template.variable_4;
+    const variable_5 = payload.template.variable_5;
+    const variable_6 = payload.template.variable_6;
+    const variable_7 = payload.template.variable_7;
+    const variable_8 = payload.template.variable_8;
 
     const messageId = `${medium}_${templateId}_${userId}_${messageTime.toISOString()}`;
 
     if (!botId || !medium || !userId || !userName || !namespace || !templateId) {
       throw new Error('Missing required payload fields');
     }
-    
+
     // Check if the user exists
     const user = await bp.users.getOrCreateUser('rocketchat', userId);
-    
+
     // Fetch user memory
     const userMemory = await bp.users.getAttributes('rocketchat', userId);
 
@@ -58,24 +57,24 @@ export const handleOutgoingTemplate = async (bp: typeof sdk, payload: any) => {
     if (!userMemory.userName) {
       await bp.users.updateAttributes('rocketchat', userId, { userName });
     }
-    
+
     // Construct the event
     const event: sdk.IO.IncomingEvent = {
-      type: "text",
-      channel: "rocketchat",
-      direction: "incoming",
+      type: 'text',
+      channel: 'rocketchat',
+      direction: 'incoming',
       payload: {
-        type: "text",
-        text: "template",
+        type: 'text',
+        text: 'template',
         timezone: 2, // Adjust if necessary
-        language: "nl" // Adjust if necessary
+        language: 'nl' // Adjust if necessary
       },
       target: userId,
       botId: botId,
       createdOn: messageTime,
-      threadId: "",
+      threadId: '',
       id: messageId,
-      preview: "template",
+      preview: 'template',
       hasFlag: () => false,
       setFlag: () => {},
       state: {
@@ -85,7 +84,7 @@ export const handleOutgoingTemplate = async (bp: typeof sdk, payload: any) => {
           userId: userId,
           userName: userName,
           timezone: 2, // Adjust if necessary
-          language: "nl" // Adjust if necessary
+          language: 'nl' // Adjust if necessary
         },
         context: {},
         session: {
@@ -112,7 +111,7 @@ export const handleOutgoingTemplate = async (bp: typeof sdk, payload: any) => {
           status: 'active'
         }
       },
-      suggestions: [],
+      suggestions: []
     };
 
     // Send the event to the Botpress server
@@ -121,5 +120,6 @@ export const handleOutgoingTemplate = async (bp: typeof sdk, payload: any) => {
     bp.logger.error('Error processing outgoing template', error);
   }
 };
+
 
 
