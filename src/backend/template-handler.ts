@@ -58,7 +58,7 @@ export const handleOutgoingTemplate = async (bp: typeof sdk, payload: any) => {
       await bp.users.updateAttributes('rocketchat', userId, { userName });
     }
 
-    // Define the template data and only include non-empty values
+    // Define the template data as separate objects in temp state
     const templateData: Record<string, any> = {};
 
     if (agentId) templateData.agentId = agentId;
@@ -107,11 +107,23 @@ export const handleOutgoingTemplate = async (bp: typeof sdk, payload: any) => {
         },
         context: {},
         session: {
-          templateData: templateData,
           lastMessages: [],
           workflows: {}
         },
-        temp: {},
+        temp: {
+          agentId: agentId ? { value: agentId } : undefined,
+          departmentId: departmentId ? { value: departmentId } : undefined,
+          namespace: namespace ? { value: namespace } : undefined,
+          templateId: templateId ? { value: templateId } : undefined,
+          languageCode: languageCode ? { value: languageCode } : undefined,
+          variable_2: variable_2 ? { value: variable_2 } : undefined,
+          variable_3: variable_3 ? { value: variable_3 } : undefined,
+          variable_4: variable_4 ? { value: variable_4 } : undefined,
+          variable_5: variable_5 ? { value: variable_5 } : undefined,
+          variable_6: variable_6 ? { value: variable_6 } : undefined,
+          variable_7: variable_7 ? { value: variable_7 } : undefined,
+          variable_8: variable_8 ? { value: variable_8 } : undefined
+        },
         bot: {},
         workflow: {
           eventId: messageId,
