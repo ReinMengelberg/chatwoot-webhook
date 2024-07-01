@@ -74,8 +74,10 @@ export const handleOutgoingTemplate = async (bp: typeof sdk, payload: any) => {
     if (variable_7) templateData.variable_7 = variable_7;
     if (variable_8) templateData.variable_8 = variable_8;
 
-    // Log templateData before constructing the event
-    bp.logger.info('templateData to be set:', JSON.stringify(templateData, null, 2));
+    const stringifiedTemplateData = JSON.stringify(templateData);
+
+    // Log stringifiedTemplateData before constructing the event
+    bp.logger.info('stringifiedTemplateData to be set:', stringifiedTemplateData);
 
     // Construct the event
     const event: sdk.IO.IncomingEvent = {
@@ -110,20 +112,7 @@ export const handleOutgoingTemplate = async (bp: typeof sdk, payload: any) => {
           lastMessages: [],
           workflows: {}
         },
-        temp: {
-          agentId: agentId ? { value: agentId } : undefined,
-          departmentId: departmentId ? { value: departmentId } : undefined,
-          namespace: namespace ? { value: namespace } : undefined,
-          templateId: templateId ? { value: templateId } : undefined,
-          languageCode: languageCode ? { value: languageCode } : undefined,
-          variable_2: variable_2 ? { value: variable_2 } : undefined,
-          variable_3: variable_3 ? { value: variable_3 } : undefined,
-          variable_4: variable_4 ? { value: variable_4 } : undefined,
-          variable_5: variable_5 ? { value: variable_5 } : undefined,
-          variable_6: variable_6 ? { value: variable_6 } : undefined,
-          variable_7: variable_7 ? { value: variable_7 } : undefined,
-          variable_8: variable_8 ? { value: variable_8 } : undefined
-        },
+        temp: stringifiedTemplateData,
         bot: {},
         workflow: {
           eventId: messageId,
