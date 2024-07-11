@@ -1,6 +1,7 @@
 import * as sdk from 'botpress/sdk';
 
 export const handleOutgoingTemplate = async (bp: typeof sdk, payload: any) => {
+  const medium = payload.medium_variables.medium;
   let botId;
   let agentId;
   let departmentId;
@@ -10,22 +11,31 @@ export const handleOutgoingTemplate = async (bp: typeof sdk, payload: any) => {
     agentId = payload.agent.username;
     departmentId = payload.agent.department;
   } else {
-    botId = 'template-sender';
+    botId = `template-sender-${medium}`;
     agentId = payload.agent.username;
     departmentId = payload.agent.department;
   }
 
   try {
-    const medium = payload.medium;
-    const rocketChatUrl = payload.rocket_chat_url;
+    // Medium Variables (Hardcoded in bot, only required for template-sender)
+    const accountId = payload.medium_variables.accountId;
+    const accessToken = payload.medium_variables.accessToken; 
+    const senderId = payload.medium_variables.sender_id; 
+    const rocketChatUrl = payload.medium_variables.rocket_chat_url; 
+    const application_id = payload.medium_variables.application_id; 
+    const application_key = payload.medium_variables.application_key; 
+
+    // Visitor Variables (Required)
     const userId = payload.visitor.userId;
     const userName = payload.visitor.name;
+    
+    // Template Variables (Required)
     const messageTime = new Date();
-
     const namespace = payload.template.namespace;
     const templateId = payload.template.id;
     const languageCode = payload.template.languageCode;
 
+    // Template Variables (Not-required)
     const variable_2 = payload.template.variable_2;
     const variable_3 = payload.template.variable_3;
     const variable_4 = payload.template.variable_4;
@@ -89,6 +99,7 @@ export const handleOutgoingTemplate = async (bp: typeof sdk, payload: any) => {
         text: 'template',
         timezone: 2, // Adjust if necessary
         language: 'nl', // Adjust if necessary
+
         rocketChatUrl: rocketChatUrl,
         templateData: templateData
       },
