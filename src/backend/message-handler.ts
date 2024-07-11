@@ -81,7 +81,8 @@ export const handleIncomingMessage = async (bp: typeof sdk, payload: any) => {
           userId: userId,
           userName: userName,
           timezone: 2, // Adjust if necessary
-          language: "nl" // Adjust if necessary
+          language: "nl", // Adjust if necessary
+          medium: medium
         },
         context: {},
         session: {
