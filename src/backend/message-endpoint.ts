@@ -3,16 +3,18 @@ import { handleIncomingMessage } from './message-handler'
 
 const ROCKETCHAT_TOKEN = "U8rL3F9nqzW1YbD7xM2aNvK6eX0pJcQ4sT5hZjVwP8mL1yRq"
 
-export const setupWebhookEndpoint = (bp: typeof sdk) => {
+export const setupMessageEndpoint = (bp: typeof sdk) => {
   const router = bp.http.createRouterForBot('rocketchat-webhook', { checkAuthentication: false })
 
-  router.post('/endpoint', async (req, res) => {
+  router.post('/message-endpoint', async (req, res) => {
     const tokenHeader = req.headers['x-rocketchat-livechat-token']
 
     if (!tokenHeader || tokenHeader !== ROCKETCHAT_TOKEN) {
       res.status(403).send('Forbidden: Invalid Token')
       return
     }
+
+    // CHECK EVENT 
 
     const { messages, agent, visitor } = req.body
 
