@@ -18,12 +18,12 @@ export const handleOutgoingTemplate = async (bp: typeof sdk, payload: any) => {
 
   try {
     // Medium Variables (Hardcoded in bot, only required for template-sender)
-    const accountId = payload.medium_variables.accountId;
-    const accessToken = payload.medium_variables.accessToken; 
+    const accountId = payload.medium_variables.account_id;
+    const accessToken = payload.medium_variables.access_token; 
     const senderId = payload.medium_variables.sender_id; 
     const rocketChatUrl = payload.medium_variables.rocket_chat_url; 
-    const application_id = payload.medium_variables.application_id; 
-    const application_key = payload.medium_variables.application_key; 
+    const applicationId = payload.medium_variables.application_id; 
+    const applicationKey = payload.medium_variables.application_key; 
 
     // Visitor Variables (Required)
     const userId = payload.visitor.userId;
@@ -99,8 +99,13 @@ export const handleOutgoingTemplate = async (bp: typeof sdk, payload: any) => {
         text: 'template',
         timezone: 2, // Adjust if necessary
         language: 'nl', // Adjust if necessary
-
+        medium: medium,
+        accountId: accountId,
+        accessToken: accessToken,
+        senderId: senderId,
         rocketChatUrl: rocketChatUrl,
+        applicationId: applicationId,
+        applicationKey: applicationKey,
         templateData: templateData
       },
       target: userId,
