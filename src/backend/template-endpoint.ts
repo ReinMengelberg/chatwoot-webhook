@@ -15,7 +15,7 @@ export const setupTemplateEndpoint = (bp: typeof sdk) => {
       return
     }
 
-    const { medium, template, agent, visitor } = req.body
+    const { medium, rocket_chat_url, template, agent, visitor } = req.body
 
     if (!medium || !rocket_chat_url || !template || !agent || !visitor) {
       bp.logger.error('Invalid request payload: medium, rocket_chat_url, template, agent, and visitor are required')
