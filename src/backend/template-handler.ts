@@ -17,7 +17,7 @@ export const handleOutgoingTemplate = async (bp: typeof sdk, payload: any) => {
 
   try {
     const medium = payload.medium;
-    const rocketChatUrl = payload.rocketChatUrl;
+    const rocketChatUrl = payload.rocket_chat_url;
     const userId = payload.visitor.userId;
     const userName = payload.visitor.name;
     const messageTime = new Date();
