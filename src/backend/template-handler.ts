@@ -140,7 +140,7 @@ export const handleOutgoingTemplate = async (bp: typeof sdk, payload: any) => {
     await bp.events.sendEvent(event);
     
     // Log after sending the event to ensure it was sent
-    bp.logger.info('Template sent to Botpress server successfully');
+    bp.logger.info(`Template received, transformed and sent to Bot: ${botId}`);
   } catch (error) {
     bp.logger.error('Error processing outgoing template', error);
   }
