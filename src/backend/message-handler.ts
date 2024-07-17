@@ -2,23 +2,22 @@ import * as sdk from 'botpress/sdk'
 
 export const handleIncomingMessage = async (bp: typeof sdk, payload: any) => {
   try {
-    const botId = payload.agent.username // botId is derived from the agent's username
-    const roomId = payload._id
-    const userId = payload.visitor.username
-    const userName = payload.visitor.name
+    const inbox = payload.inbox.name;
+    const parts = inbox.split(" - ");
+    let account: string, channel: string;
 
-    let medium = "undefined"
-    if (botId.includes("email")) {
-      medium = "email"
-    } else if (botId.includes("whatsapp")) {
-      medium = "whatsapp"
-    } else if (botId.includes("instagram")) {
-      medium = "instagram"
-    } else if (botId.includes("messenger")) {
-      medium = "messenger"
-    } else if (botId.includes("linkedin")) {
-      medium = "linkedin"
+    if (parts.length === 2) {
+        account = parts[0].trim().toLowerCase().replace(/\s+/g, '-');
+        channel = parts[1].trim().toLowerCase().replace(/\s+/g, '-');
+    } else {
+        logger.error("Inbox format is incorrect. Expected format: 'string1 - string2'");
+        return; // Exit the function if the format is incorrect
     }
+
+    const botId = `aiex-${account}-${channel}`;
+    const roomId = payload._id;
+    const userId = payload.visitor.username;
+    const userName = payload.visitor.name;
 
     // Ensure messages is an array and access the first message
     if (!Array.isArray(payload.messages) || payload.messages.length === 0) {
@@ -41,18 +40,18 @@ export const handleIncomingMessage = async (bp: typeof sdk, payload: any) => {
     const userMemory = await bp.users.getAttributes('rocketchat', userId)
 
     // Update user memory with medium if not already set
-    if (!userMemory.medium) {
-      await bp.users.updateAttributes('rocketchat', userId, { medium: medium })
+    if (!userMemory.channel) {
+      await bp.users.updateAttributes( channel, userId, { channel: channel })
     }
 
     // Update user memory with userId if not already set
     if (!userMemory.userId) {
-      await bp.users.updateAttributes('rocketchat', userId, { userId: userId })
+      await bp.users.updateAttributes( channel, userId, { userId: userId })
     }
 
     // Update user memory with userName if not already set
     if (!userMemory.userName) {
-      await bp.users.updateAttributes('rocketchat', userId, { userName: userName })
+      await bp.users.updateAttributes( channel, userId, { userName: userName })
     }
 
     // Construct the event
@@ -78,7 +77,7 @@ export const handleIncomingMessage = async (bp: typeof sdk, payload: any) => {
       state: {
         __stacktrace: [],
         user: {
-          medium: medium,
+          channel: channel,
           userId: userId,
           userName: userName,
           timezone: 2, // Adjust if necessary
