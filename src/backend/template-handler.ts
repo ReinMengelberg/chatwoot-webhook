@@ -85,10 +85,6 @@ export const handleOutgoingTemplate = async (bp: typeof sdk, payload: any) => {
     if (variable_7) templateData.variable_7 = variable_7;
     if (variable_8) templateData.variable_8 = variable_8;
 
-
-    // Log templateData before constructing the event
-    bp.logger.info('templateData to be set:', templateData);
-
     // Construct the event
     const event: sdk.IO.IncomingEvent = {
       type: 'text',
@@ -140,14 +136,11 @@ export const handleOutgoingTemplate = async (bp: typeof sdk, payload: any) => {
       suggestions: []
     };
 
-    // Log the entire event object for debugging
-    bp.logger.info('Constructed event:', JSON.stringify(event, null, 2));
-
     // Send the event to the Botpress server
     await bp.events.sendEvent(event);
     
     // Log after sending the event to ensure it was sent
-    bp.logger.info('Event sent to Botpress server successfully');
+    bp.logger.info(`Template received, transformed and sent to Bot: ${botId}`);
   } catch (error) {
     bp.logger.error('Error processing outgoing template', error);
   }
