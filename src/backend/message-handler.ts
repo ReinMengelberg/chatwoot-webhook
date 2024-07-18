@@ -48,6 +48,16 @@ export const handleIncomingMessage = async (bp: typeof sdk, payload: any) => {
 
     const chatwoot_channel = `Account#${account_id}_${account_name}_Inbox#${inbox_id}_${inbox_name}`
 
+    // Create userData object
+    const userData: Record<string, any> = {};
+    if (user_id) userData.userId = user_id;
+    if (user_name) userData.userName = user_name;
+    if (user_phone) userData.userPhone = user_phone;
+    if (user_email) userData.userEmail = user_email;
+    if (user_identifier) userData.userIdentifier = user_identifier;
+    if (user_additional_attributes) userData.userAdditionalAttributes = user_additional_attributes;
+    if (user_custom_attributes) userData.userCustomAttributes = user_custom_attributes;
+    
     // Construct the event
     const event: sdk.IO.IncomingEvent = {
       type: "text",
@@ -58,6 +68,7 @@ export const handleIncomingMessage = async (bp: typeof sdk, payload: any) => {
         text: message_text,
         timezone: 2, // Adjust if necessary
         language: "nl", // Adjust if necessary
+        userData
       },
       target: user_id,
       botId: bot_id,
@@ -70,13 +81,6 @@ export const handleIncomingMessage = async (bp: typeof sdk, payload: any) => {
       state: {
         __stacktrace: [],
         user: {
-          userId: user_id,
-          userName: user_name,
-          userPhone: user_phone,
-          userEmail: user_email,
-          userIdentifier: user_identifier,
-          userAdditionalAttributes: user_additional_attributes,
-          userCustomAttributes: user_custom_attributes,
           timezone: 2, // Adjust if necessary
           language: "nl" // Adjust if necessary
         },
