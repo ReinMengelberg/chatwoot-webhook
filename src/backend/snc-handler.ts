@@ -89,11 +89,11 @@ export const startNewConversation = async (bp: typeof sdk, payload: any) => {
       await bp.users.updateAttributes(chatwoot_channel, user_id, { userCustomAttributes: user_custom_attributes });
     }
 
-    // Define the template data as separate objects in temp state
+    // Define the template data as object in event.payload
     const templateData: Record<string, any> = {};
     if (namespace) templateData.namespace = namespace;
-    if (template_id) templateData.templateId = templateId;
-    if (language_code) templateData.languageCode = languageCode;
+    if (template_id) templateData.template_id = template_id;
+    if (language_code) templateData.language_code = language_code;
     if (variable_2) templateData.variable_2 = variable_2;
     if (variable_3) templateData.variable_3 = variable_3;
     if (variable_4) templateData.variable_4 = variable_4;
@@ -158,7 +158,7 @@ export const startNewConversation = async (bp: typeof sdk, payload: any) => {
     await bp.events.sendEvent(event);
     
     // Log after sending the event to ensure it was sent
-    bp.logger.info(`Template received, transformed and sent to Bot: ${botId}`);
+    bp.logger.info(`Template received, transformed and sent to Bot: ${bot_id}`);
   } catch (error) {
     bp.logger.error('Error processing outgoing template', error);
   }
