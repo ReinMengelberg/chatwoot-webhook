@@ -51,13 +51,13 @@ export const handleIncomingMessage = async (bp: typeof sdk, payload: any) => {
 
     // Create accountData object
     const accountData: Record<string, any> = {};
-    if (account_id) accountData.id = account_id
-    if (account_name) accountData.name = account_name
+    if (account_id) accountData.id = account_id;
+    if (account_name) accountData.name = account_name;
 
     // Create inboxData object
     const inboxData: Record<string, any> = {};
-    if (inbox_id) inboxData.id = account_id
-    if (inbox_name) inboxData.name = account_name
+    if (inbox_id) inboxData.id = inbox_id;
+    if (inbox_name) inboxData.name = inbox_name;
 
     // Create userData object
     const userData: Record<string, any> = {};
@@ -68,7 +68,7 @@ export const handleIncomingMessage = async (bp: typeof sdk, payload: any) => {
     if (user_identifier) userData.userIdentifier = user_identifier;
     if (user_additional_attributes) userData.userAdditionalAttributes = user_additional_attributes;
     if (user_custom_attributes) userData.userCustomAttributes = user_custom_attributes;
-    
+
     // Construct the event
     const event: sdk.IO.IncomingEvent = {
       type: "text",
@@ -81,7 +81,7 @@ export const handleIncomingMessage = async (bp: typeof sdk, payload: any) => {
         language: "nl", // Adjust if necessary
         accountData,
         inboxData,
-        userData
+        userData,
       },
       target: user_id,
       botId: bot_id,
@@ -95,26 +95,26 @@ export const handleIncomingMessage = async (bp: typeof sdk, payload: any) => {
         __stacktrace: [],
         user: {
           timezone: 2, // Adjust if necessary
-          language: "nl" // Adjust if necessary
+          language: "nl", // Adjust if necessary
         },
         context: {},
         session: {
           lastMessages: [],
-          workflows: {}
+          workflows: {},
         },
         temp: {},
         bot: {},
         workflow: {
           eventId: message_id,
           status: 'active',
-        }
+        },
       },
       suggestions: [],
-    }
+    };
 
     // Send the event to the Botpress server
-    await bp.events.sendEvent(event)
+    await bp.events.sendEvent(event);
   } catch (error) {
-    bp.logger.error('Error processing incoming message', error)
+    bp.logger.error('Error processing incoming message', error);
   }
-}
+};
