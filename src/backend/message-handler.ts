@@ -81,7 +81,7 @@ export const handleIncomingMessage = async (bp: typeof sdk, payload: any) => {
         language: "nl", // Adjust if necessary
         accountData,
         inboxData,
-        userData,
+        userData
       },
       target: user_id,
       botId: bot_id,
