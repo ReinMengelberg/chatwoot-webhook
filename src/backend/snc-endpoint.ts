@@ -19,8 +19,8 @@ export const setupSncEndpoint = (bp: typeof sdk) => {
       await startNewConversation(bp, req.body)
       res.status(200).send('Payload processed')
     } catch (error) {
-      bp.logger.error('Error when starting new conversation', error)
-      res.status(500).send('Error when starting new conversation', error)
+      bp.logger.error(`Error when starting new conversation: ${error}`)
+      res.status(500).send(`Error when starting new conversation: ${error}`)
     }
   })
 }
