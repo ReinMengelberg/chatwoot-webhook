@@ -44,15 +44,38 @@ export const startNewConversation = async (bp: typeof sdk, payload: any) => {
     const variable_7 = payload.template.variable_7;
     const variable_8 = payload.template.variable_8;
 
-    // Create chatwoot_channel variable
-    const chatwoot_channel = `Account#${account_id}_${account_name}_Inbox#${inbox_id}_${inbox_name}`
-
     // Create Message Id
     const message_id = `${chatwoot_channel}_${user_id}_${template_id}_${message_time.getTime()}`;
 
     if (!bot_id || !user_id || !user_name || !namespace || !template_id || !language_code) {
       throw new Error('Missing required payload fields');
     }
+
+    // Create chatwoot_channel
+    const chatwoot_channel = `Account#${account_id}${account_name}_Inbox#${inbox_id}${inbox_name}`
+
+    // Create Message Id
+    const message_id = `${chatwoot_channel}_${user_id}_${template_id}_${message_time.getTime()}`;
+
+    // Create accountData object
+    const accountData: Record<string, any> = {};
+    if (account_id) accountData.id = account_id
+    if (account_name) accountData.name = account_name
+
+    // Create inboxData object
+    const inboxData: Record<string, any> = {};
+    if (inbox_id) inboxData.id = account_id
+    if (inbox_name) inboxData.name = account_name
+
+    // Create userData object
+    const userData: Record<string, any> = {};
+    if (user_id) userData.userId = user_id;
+    if (user_name) userData.userName = user_name;
+    if (user_phone) userData.userPhone = user_phone;
+    if (user_email) userData.userEmail = user_email;
+    if (user_identifier) userData.userIdentifier = user_identifier;
+    if (user_additional_attributes) userData.userAdditionalAttributes = user_additional_attributes;
+    if (user_custom_attributes) userData.userCustomAttributes = user_custom_attributes;
     
     // Define the template data as object in event.payload
     const templateData: Record<string, any> = {};
@@ -77,10 +100,9 @@ export const startNewConversation = async (bp: typeof sdk, payload: any) => {
         text: `snc-${secure_string}`,
         timezone: 2, // Adjust if necessary
         language: 'nl', // Adjust if necessary
-        account_id,
-        account_name,
-        inbox_id,
-        inbox_name,
+        accountData,
+        inboxData,
+        userData,
         templateData
       },
       target: user_id,
@@ -94,13 +116,6 @@ export const startNewConversation = async (bp: typeof sdk, payload: any) => {
       state: {
         __stacktrace: [],
         user: {
-          userId: user_id,
-          userName: user_name,
-          userPhone: user_phone,
-          userEmail: user_email,
-          userIdentifier: user_identifier,
-          userAdditionalAttributes: user_additional_attributes,
-          userCustomAttributes: user_custom_attributes,
           timezone: 2, // Adjust if necessary
           language: "nl" // Adjust if necessary
         },
