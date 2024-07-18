@@ -1,6 +1,6 @@
 import * as sdk from 'botpress/sdk'
 import { setupMessageEndpoint } from './message-endpoint'
-import { setupTemplateEndpoint } from './template-endpoint'
+import { setupSncEndpoint } from './snc-endpoint'
 
 // This is called when the server is started, usually to set up the database
 const onServerStarted = async (bp: typeof sdk) => {}
@@ -10,7 +10,7 @@ const onServerReady = async (bp: typeof sdk) => {
   // Setup the message endpoint
   setupMessageEndpoint(bp)
   // Setup the template endpoint
-  setupTemplateEndpoint(bp)
+  setupSncEndpoint(bp)
 }
 
 // Every time a bot is created (or enabled), this method will be called with the bot id

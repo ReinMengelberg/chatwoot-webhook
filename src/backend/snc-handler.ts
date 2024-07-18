@@ -1,7 +1,10 @@
-import * as sdk from 'botpress/sdk'
+import * as sdk from 'botpress/sdk';
 
-export const handleIncomingMessage = async (bp: typeof sdk, payload: any) => {
+export const startNewConversation = async (bp: typeof sdk, payload: any) => {
   try {
+    // Set secure_string
+    const secure_string = 'e7efaba6b6d6f8cac735031582cd97d5c41431ea9cbc155e333aed7ec05cd62c';
+
     // Retrieve Account Data
     const account_id = payload.account.id;
     const account_name = payload.account.name.toLowerCase().replace(/\s+/g, '-');
@@ -13,41 +16,44 @@ export const handleIncomingMessage = async (bp: typeof sdk, payload: any) => {
     if (!account_id || !account_name || !inbox_id || !inbox_name) {
       throw new Error('Missing required account or inbox fields');
     }
-    
-    // Retrieve Conversation Data
-    const channel = payload.conversation.channel;
-    const conversation_id = payload.conversation.id;
-
-    // Retrieve User Data
-    const user_id = payload.sender.id;
-    const user_name = payload.sender.name;
-    const user_phone = payload.sender.phone_number;
-    const user_email = payload.sender.email;
-    const user_identifier = payload.sender.identifier;
-    const user_additional_attributes = payload.sender.additional_attributes;
-    const user_custom_attributes = payload.sender.custom_attributes;
 
     // Create bot_id dynamically
-    const bot_id = `aiex-${account_name}-${inbox_name}`;
+    const bot_id = payload.bot_id;
 
-    // Ensure messages is an array and access the first message
-    const messages = payload.conversation.messages
-    if (!Array.isArray(messages) || payload.messages.length === 0) {
-      throw new Error('Messages array is missing or empty')
-    }
+    // Retrieve User Data
+    const user_id = payload.contact.id;
+    const user_name = payload.contact.name;
+    const user_phone = payload.contact.phone_number;
+    const user_email = payload.contact.email;
+    const user_identifier = payload.contact.identifier;
+    const user_additional_attributes = payload.contact.additional_attributes;
+    const user_custom_attributes = payload.contact.custom_attributes;
+    
+    // Template Variables (Required)
+    const message_time = new Date();
+    const namespace = payload.template.namespace;
+    const template_id = payload.template.id;
+    const language_code = payload.template.languageCode;
 
-    const message = payload.conversation.messages[0]
-    const message_text = message.content
-    const message_id = message.id
-    const message_time = message.updated_at
+    // Template Variables (Not-required)
+    const variable_2 = payload.template.variable_2;
+    const variable_3 = payload.template.variable_3;
+    const variable_4 = payload.template.variable_4;
+    const variable_5 = payload.template.variable_5;
+    const variable_6 = payload.template.variable_6;
+    const variable_7 = payload.template.variable_7;
+    const variable_8 = payload.template.variable_8;
 
-    if (!bot_id || !user_id || !user_name || !conversation_id || !message_text ||
-      (!user_email && !user_phone && !user_identifier)) {
-    throw new Error('Missing required payload fields')
-  }
-
+    // Create chatwoot_channel variable
     const chatwoot_channel = `Account#${account_id}_${account_name}_Inbox#${inbox_id}_${inbox_name}`
 
+    // Create Message Id
+    const message_id = `${chatwoot_channel}_${user_id}_${template_id}_${message_time.getTime()}`;
+
+    if (!bot_id || !user_id || !user_name || !namespace || !template_id || !language_code) {
+      throw new Error('Missing required payload fields');
+    }
+    
     // Check if the user exists
     let user = await bp.users.getOrCreateUser(chatwoot_channel, user_id);
 
@@ -83,23 +89,41 @@ export const handleIncomingMessage = async (bp: typeof sdk, payload: any) => {
       await bp.users.updateAttributes(chatwoot_channel, user_id, { userCustomAttributes: user_custom_attributes });
     }
 
+    // Define the template data as separate objects in temp state
+    const templateData: Record<string, any> = {};
+    if (namespace) templateData.namespace = namespace;
+    if (template_id) templateData.templateId = templateId;
+    if (language_code) templateData.languageCode = languageCode;
+    if (variable_2) templateData.variable_2 = variable_2;
+    if (variable_3) templateData.variable_3 = variable_3;
+    if (variable_4) templateData.variable_4 = variable_4;
+    if (variable_5) templateData.variable_5 = variable_5;
+    if (variable_6) templateData.variable_6 = variable_6;
+    if (variable_7) templateData.variable_7 = variable_7;
+    if (variable_8) templateData.variable_8 = variable_8;
+
     // Construct the event
     const event: sdk.IO.IncomingEvent = {
-      type: "text",
+      type: 'text',
       channel: chatwoot_channel,
-      direction: "incoming",
+      direction: 'incoming',
       payload: {
-        type: "text",
-        text: message_text,
+        type: 'text',
+        text: `snc-${secure_string}`,
         timezone: 2, // Adjust if necessary
-        language: "nl", // Adjust if necessary
+        language: 'nl', // Adjust if necessary
+        account_id,
+        account_name,
+        inbox_id,
+        inbox_name,
+        templateData
       },
       target: user_id,
       botId: bot_id,
       createdOn: message_time,
-      threadId: conversation_id,
+      threadId: '',
       id: message_id,
-      preview: message_text,
+      preview: `snc-${secure_string}`,
       hasFlag: () => false,
       setFlag: () => {},
       state: {
@@ -124,18 +148,21 @@ export const handleIncomingMessage = async (bp: typeof sdk, payload: any) => {
         bot: {},
         workflow: {
           eventId: message_id,
-          status: 'active',
+          status: 'active'
         }
       },
-      suggestions: [],
-    }
+      suggestions: []
+    };
 
     // Send the event to the Botpress server
-    await bp.events.sendEvent(event)
+    await bp.events.sendEvent(event);
+    
+    // Log after sending the event to ensure it was sent
+    bp.logger.info(`Template received, transformed and sent to Bot: ${botId}`);
   } catch (error) {
-    bp.logger.error('Error processing incoming message', error)
+    bp.logger.error('Error processing outgoing template', error);
   }
-}
+};
 
 
 
