@@ -54,41 +54,6 @@ export const startNewConversation = async (bp: typeof sdk, payload: any) => {
       throw new Error('Missing required payload fields');
     }
     
-    // Check if the user exists
-    let user = await bp.users.getOrCreateUser(chatwoot_channel, user_id);
-
-    // Fetch user memory
-    const userMemory = await bp.users.getAttributes(chatwoot_channel, user_id);
-
-    // Update user memory with user data if not already set
-    if (!userMemory.userId && user_id !== undefined) {
-      await bp.users.updateAttributes(chatwoot_channel, user_id, { userId: user_id });
-    }
-
-    if (!userMemory.userName && user_name !== undefined) {
-      await bp.users.updateAttributes(chatwoot_channel, user_id, { userName: user_name });
-    }
-
-    if (!userMemory.userPhone && user_phone !== undefined) {
-      await bp.users.updateAttributes(chatwoot_channel, user_id, { userPhone: user_phone });
-    }
-
-    if (!userMemory.userEmail && user_email !== undefined) {
-      await bp.users.updateAttributes(chatwoot_channel, user_id, { userEmail: user_email });
-    }
-
-    if (!userMemory.userIdentifier && user_identifier !== undefined) {
-      await bp.users.updateAttributes(chatwoot_channel, user_id, { userIdentifier: user_identifier });
-    }
-
-    if (!userMemory.userAdditionalAttributes && user_additional_attributes !== undefined) {
-      await bp.users.updateAttributes(chatwoot_channel, user_id, { userAdditionalAttributes: user_additional_attributes });
-    }
-
-    if (!userMemory.userCustomAttributes && user_custom_attributes !== undefined) {
-      await bp.users.updateAttributes(chatwoot_channel, user_id, { userCustomAttributes: user_custom_attributes });
-    }
-
     // Define the template data as object in event.payload
     const templateData: Record<string, any> = {};
     if (namespace) templateData.namespace = namespace;
