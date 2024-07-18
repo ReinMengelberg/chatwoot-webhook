@@ -2,7 +2,7 @@ import * as sdk from 'botpress/sdk'
 import { handleIncomingMessage } from './message-handler'
 
 export const setupMessageEndpoint = (bp: typeof sdk) => {
-  const router = bp.http.createRouterForBot('aiex-webhook', { checkAuthentication: false })
+  const router = bp.http.createRouterForBot('chatwoot-webhook', { checkAuthentication: false })
   const secure_string = 'e7efaba6b6d6f8cac735031582cd97d5c41431ea9cbc155e333aed7ec05cd62c';
 
   router.post(`/message-endpoint/${secure_string}`, async (req, res) => {
