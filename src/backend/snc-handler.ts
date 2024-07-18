@@ -102,7 +102,7 @@ export const startNewConversation = async (bp: typeof sdk, payload: any) => {
           userAdditionalAttributes: user_additional_attributes,
           userCustomAttributes: user_custom_attributes,
           timezone: 2, // Adjust if necessary
-          language: "nl", // Adjust if necessary
+          language: "nl" // Adjust if necessary
         },
         context: {},
         session: {
