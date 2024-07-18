@@ -46,7 +46,8 @@ export const handleIncomingMessage = async (bp: typeof sdk, payload: any) => {
     throw new Error('Missing required payload fields')
   }
 
-    const chatwoot_channel = `Account#${account_id}_${account_name}_Inbox#${inbox_id}_${inbox_name}`
+    // Create chatwoot_channel
+    const chatwoot_channel = `Account#${account_id}${account_name}_Inbox#${inbox_id}${inbox_name}`
 
     // Create userData object
     const userData: Record<string, any> = {};
