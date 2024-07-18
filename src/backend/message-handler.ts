@@ -49,6 +49,16 @@ export const handleIncomingMessage = async (bp: typeof sdk, payload: any) => {
     // Create chatwoot_channel
     const chatwoot_channel = `Account#${account_id}${account_name}_Inbox#${inbox_id}${inbox_name}`
 
+    // Create accountData object
+    const accountData: Record<string, any> = {};
+    if (account_id) accountData.id = account_id
+    if (account_name) accountData.name = account_name
+
+    // Create inboxData object
+    const inboxData: Record<string, any> = {};
+    if (inbox_id) inboxData.id = account_id
+    if (inbox_name) inboxData.name = account_name
+
     // Create userData object
     const userData: Record<string, any> = {};
     if (user_id) userData.userId = user_id;
@@ -69,6 +79,8 @@ export const handleIncomingMessage = async (bp: typeof sdk, payload: any) => {
         text: message_text,
         timezone: 2, // Adjust if necessary
         language: "nl", // Adjust if necessary
+        accountData,
+        inboxData,
         userData
       },
       target: user_id,
