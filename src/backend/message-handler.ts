@@ -1,4 +1,4 @@
-saimport * as sdk from 'botpress/sdk'
+import * as sdk from 'botpress/sdk'
 
 export const handleIncomingMessage = async (bp: typeof sdk, payload: any) => {
   try {
@@ -32,7 +32,7 @@ export const handleIncomingMessage = async (bp: typeof sdk, payload: any) => {
 
     // Ensure messages is an array and access the first message
     const messages = payload.conversation.messages
-    if (!Array.isArray(messages) || payload.conversation.messages.length === 0) {
+    if (!Array.isArray(messages) || messages.length === 0) {
       throw new Error('Messages array is missing or empty')
     }
 
@@ -136,7 +136,3 @@ export const handleIncomingMessage = async (bp: typeof sdk, payload: any) => {
     bp.logger.error('Error processing incoming message', error)
   }
 }
-
-
-
-
