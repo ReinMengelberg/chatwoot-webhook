@@ -44,9 +44,6 @@ export const startNewConversation = async (bp: typeof sdk, payload: any) => {
     const variable_7 = payload.template.variable_7;
     const variable_8 = payload.template.variable_8;
 
-    // Create Message Id
-    const message_id = `${chatwoot_channel}_${user_id}_${template_id}_${message_time.getTime()}`;
-
     if (!bot_id || !user_id || !user_name || !namespace || !template_id || !language_code) {
       throw new Error('Missing required payload fields');
     }
@@ -64,8 +61,8 @@ export const startNewConversation = async (bp: typeof sdk, payload: any) => {
 
     // Create inboxData object
     const inboxData: Record<string, any> = {};
-    if (inbox_id) inboxData.id = account_id
-    if (inbox_name) inboxData.name = account_name
+    if (inbox_id) inboxData.id = inbox_id
+    if (inbox_name) inboxData.name = inbox_name
 
     // Create userData object
     const userData: Record<string, any> = {};
