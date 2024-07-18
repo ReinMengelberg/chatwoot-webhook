@@ -48,41 +48,6 @@ export const handleIncomingMessage = async (bp: typeof sdk, payload: any) => {
 
     const chatwoot_channel = `Account#${account_id}_${account_name}_Inbox#${inbox_id}_${inbox_name}`
 
-    // Check if the user exists
-    let user = await bp.users.getOrCreateUser(chatwoot_channel, user_id);
-
-    // Fetch user memory
-    const userMemory = await bp.users.getAttributes(chatwoot_channel, user_id);
-
-    // Update user memory with user data if not already set
-    if (!userMemory.userId && user_id !== undefined) {
-      await bp.users.updateAttributes(chatwoot_channel, user_id, { userId: user_id });
-    }
-
-    if (!userMemory.userName && user_name !== undefined) {
-      await bp.users.updateAttributes(chatwoot_channel, user_id, { userName: user_name });
-    }
-
-    if (!userMemory.userPhone && user_phone !== undefined) {
-      await bp.users.updateAttributes(chatwoot_channel, user_id, { userPhone: user_phone });
-    }
-
-    if (!userMemory.userEmail && user_email !== undefined) {
-      await bp.users.updateAttributes(chatwoot_channel, user_id, { userEmail: user_email });
-    }
-
-    if (!userMemory.userIdentifier && user_identifier !== undefined) {
-      await bp.users.updateAttributes(chatwoot_channel, user_id, { userIdentifier: user_identifier });
-    }
-
-    if (!userMemory.userAdditionalAttributes && user_additional_attributes !== undefined) {
-      await bp.users.updateAttributes(chatwoot_channel, user_id, { userAdditionalAttributes: user_additional_attributes });
-    }
-
-    if (!userMemory.userCustomAttributes && user_custom_attributes !== undefined) {
-      await bp.users.updateAttributes(chatwoot_channel, user_id, { userCustomAttributes: user_custom_attributes });
-    }
-
     // Construct the event
     const event: sdk.IO.IncomingEvent = {
       type: "text",
