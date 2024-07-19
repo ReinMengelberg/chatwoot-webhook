@@ -31,8 +31,8 @@ export const startNewConversation = async (bp: typeof sdk, payload: any) => {
     
     // Template Variables (Required)
     const message_time = new Date();
-    const namespace = payload.template.namespace;
-    const template_id = payload.template.id;
+    const template_name = payload.template.name;
+    const category = payload.template.category;
     const language_code = payload.template.languageCode;
 
     // Template Variables (Not-required)
@@ -76,8 +76,8 @@ export const startNewConversation = async (bp: typeof sdk, payload: any) => {
     
     // Define the template data as object in event.payload
     const templateData: Record<string, any> = {};
-    if (namespace) templateData.namespace = namespace;
-    if (template_id) templateData.template_id = template_id;
+    if (template_name) templateData.template_name = template_name;
+    if (category) templateData.category = category;
     if (language_code) templateData.language_code = language_code;
     if (variable_2) templateData.variable_2 = variable_2;
     if (variable_3) templateData.variable_3 = variable_3;
