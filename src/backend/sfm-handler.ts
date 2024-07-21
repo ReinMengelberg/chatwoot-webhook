@@ -1,6 +1,6 @@
 import * as sdk from 'botpress/sdk';
 
-export const startNewConversation = async (bp: typeof sdk, payload: any) => {
+export const sendFirstMessage = async (bp: typeof sdk, payload: any) => {
   try {
     // Set secure_string
     const secure_string = 'e7efaba6b6d6f8cac735031582cd97d5c41431ea9cbc155e333aed7ec05cd62c';
