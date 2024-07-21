@@ -4,9 +4,8 @@ import { processFirstMessage } from './pfm-processor'
 export const setupPfmEndpoint = (bp: typeof sdk) => {
   const router = bp.http.createRouterForBot('chatwoot-webhook', { checkAuthentication: false })
 
-  // Retrieve variables from config
-  const config = bp.config.getModuleConfig('chatwoot-webhook')
-  const secure_string = config.secureString;
+  // Set secure_string
+  const secure_string = "e7efaba6b6d6f8cac735031582cd97d5c41431ea9cbc155e333aed7ec05cd62c";
 
   router.post(`/pfm-endpoint/${secure_string}`, async (req, res) => {
 
