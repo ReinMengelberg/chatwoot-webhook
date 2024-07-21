@@ -2,10 +2,9 @@ import * as sdk from 'botpress/sdk'
 
 export const processIncomingMessage = async (bp: typeof sdk, payload: any) => {
   try {
-    // Retrieve variables from config
-    const config = bp.config.getModuleConfig('chatwoot-webhook')
-    const timezone = config.timezone;
-    const language = config.languageCode;
+    // Set Variables
+    const timezone = "2";
+    const language = "nl";
 
     // Retrieve Account Data
     const account_id = payload.account.id;
