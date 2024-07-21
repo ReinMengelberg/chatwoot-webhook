@@ -1,7 +1,7 @@
 import * as sdk from 'botpress/sdk'
 import { processIncomingMessage } from './message-processor'
 
-export const setupMessageEndpoint = (bp: typeof sdk) => {
+export const setupMessageEndpoint = async (bp: typeof sdk) => {
   const router = bp.http.createRouterForBot('chatwoot-webhook', { checkAuthentication: false })
 
   // Retrieve variables from config
