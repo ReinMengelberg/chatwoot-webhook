@@ -21,20 +21,22 @@ export const startNewConversation = async (bp: typeof sdk, payload: any) => {
     const bot_id = `aiex-${account_name}-${inbox_name}`;
 
     // Retrieve User Data
+    const user_id = payload.contact.id
     const user_name = payload.contact.name;
     const user_phone = payload.contact.phone;
     const user_email = payload.contact.email;
     const user_identifier = payload.contact.identifier;
     const user_additional_attributes = payload.contact.additional_attributes;
     const user_custom_attributes = payload.contact.custom_attributes;
-    
-    // Template Variables (Required)
-    const message_time = new Date();
-    const template_name = payload.template.name;
-    const category = payload.template.category;
-    const language_code = payload.template.languageCode;
 
-    // Template Variables (Not-required)
+    // Message Variables
+    const message_time = new Date();
+    const snc_message = payload.message;
+    
+    // Template Variables
+    const template_id = payload.template.id;
+    const category = payload.template.category;
+    const language_code = payload.template.language_code;
     const variable_2 = payload.template.variable_2;
     const variable_3 = payload.template.variable_3;
     const variable_4 = payload.template.variable_4;
@@ -43,7 +45,7 @@ export const startNewConversation = async (bp: typeof sdk, payload: any) => {
     const variable_7 = payload.template.variable_7;
     const variable_8 = payload.template.variable_8;
 
-    if (!bot_id || !user_id || !user_name || !namespace || !template_id || !language_code) {
+    if (!bot_id || !user_id || !user_name || (!template_id && !snc_message) {
       throw new Error('Missing required payload fields');
     }
 
@@ -104,7 +106,7 @@ export const startNewConversation = async (bp: typeof sdk, payload: any) => {
       target: user_id,
       botId: bot_id,
       createdOn: message_time,
-      threadId: '',
+      threadId: ''  ,
       id: message_id,
       preview: `snc-${secure_string}`,
       hasFlag: () => false,
