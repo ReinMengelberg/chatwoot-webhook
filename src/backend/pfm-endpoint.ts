@@ -1,7 +1,7 @@
 import * as sdk from 'botpress/sdk'
 import { processFirstMessage } from './pfm-processor'
 
-export const setupPfmEndpoint = (bp: typeof sdk) => {
+export const setupPfmEndpoint = async (bp: typeof sdk) => {
   const router = bp.http.createRouterForBot('chatwoot-webhook', { checkAuthentication: false })
 
   // Retrieve variables from config
