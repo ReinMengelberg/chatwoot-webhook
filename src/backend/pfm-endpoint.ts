@@ -5,7 +5,7 @@ export const setupPfmEndpoint = (bp: typeof sdk) => {
   const router = bp.http.createRouterForBot('chatwoot-webhook', { checkAuthentication: false })
 
   // Retrieve variables from config
-  const config = bp.config.getModuleConfig('chatwoot-webhook')
+  const config = await bp.config.getModuleConfig('chatwoot-webhook')
   const secure_string = config.secureString;
 
   router.post(`/pfm-endpoint/${secure_string}`, async (req, res) => {
