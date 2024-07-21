@@ -1,11 +1,11 @@
 import * as sdk from 'botpress/sdk'
-import { startNewConversation } from './snc-handler'
+import { sendFirstMessage } from './sfm-handler'
 
-export const setupSncEndpoint = (bp: typeof sdk) => {
+export const setupSfmEndpoint = (bp: typeof sdk) => {
   const router = bp.http.createRouterForBot('chatwoot-webhook', { checkAuthentication: false })
   const secure_string = 'e7efaba6b6d6f8cac735031582cd97d5c41431ea9cbc155e333aed7ec05cd62c';
 
-  router.post(`/snc-endpoint/${secure_string}`, async (req, res) => {
+  router.post(`/sfm-endpoint/${secure_string}`, async (req, res) => {
 
     const {account, inbox, contact, message} = req.body
 
