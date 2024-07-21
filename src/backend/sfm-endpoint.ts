@@ -9,7 +9,7 @@ export const setupSfmEndpoint = (bp: typeof sdk) => {
 
     const {account, inbox, contact, message} = req.body
 
-    if (!account || !inbox || !contact || !message) {
+    if (!account || !inbox || !conversation_id || !contact || !message) {
       bp.logger.error('Invalid request payload: account, inbox, contact and message are required')
       res.status(400).send('Invalid request payload: account, inbox, contact and message are required')
       return
