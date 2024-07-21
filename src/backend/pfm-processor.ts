@@ -1,10 +1,13 @@
 import * as sdk from 'botpress/sdk';
 
-export const sendFirstMessage = async (bp: typeof sdk, payload: any) => {
+export const processFirstMessage = async (bp: typeof sdk, payload: any) => {
   try {
-    // Set secure_string
-    const secure_string = 'e7efaba6b6d6f8cac735031582cd97d5c41431ea9cbc155e333aed7ec05cd62c';
-
+    // Retrieve variables from config
+    const config = bp.config.getModuleConfig('chatwoot-webhook')
+    const secure_string = config.secureString;
+    const timezone = config.timezone;
+    const language = config.languageCode;
+    
     // Retrieve Account Data
     const account_id = payload.account.id;
     const account_name = payload.account.name.toLowerCase().replace(/\s+/g, '-');
@@ -14,7 +17,13 @@ export const sendFirstMessage = async (bp: typeof sdk, payload: any) => {
     const inbox_name = payload.inbox.name.toLowerCase().replace(/\s+/g, '-');
 
     if (!account_id || !account_name || !inbox_id || !inbox_name) {
-      throw new Error('Missing required account or inbox fields');
+      throw new Error('Missing required account or inbox fields in payload');
+    }
+
+    // Retrieve conversation_id
+    const conversation_id = payload.conversation.id
+    if (!conversation_id) {
+      throw new Error('Missing conversation_id in payload');
     }
 
     // Create bot_id dynamically
@@ -31,21 +40,23 @@ export const sendFirstMessage = async (bp: typeof sdk, payload: any) => {
 
     // Message Variables
     const message_time = new Date();
-    const snc_message = payload.message;
-    
-    // Template Variables
-    const template_id = payload.template.id;
-    const category = payload.template.category;
-    const language_code = payload.template.language_code;
-    const variable_2 = payload.template.variable_2;
-    const variable_3 = payload.template.variable_3;
-    const variable_4 = payload.template.variable_4;
-    const variable_5 = payload.template.variable_5;
-    const variable_6 = payload.template.variable_6;
-    const variable_7 = payload.template.variable_7;
-    const variable_8 = payload.template.variable_8;
 
-    if (!bot_id || !user_id || !user_name || (!template_id && !snc_message) {
+    // Retrieve firstMessage
+    const first_message = payload.message.content;
+    
+    // Retrieve templateMessage variables
+    const template_id = payload.message.template.id;
+    const template_category = payload.message.template.category;
+    const template_language_code = payload.message.template.language_code;
+    const template_variable_2 = payload.message.template.variable_2;
+    const template_variable_3 = payload.message.template.variable_3;
+    const template_variable_4 = payload.message.template.variable_4;
+    const template_variable_5 = payload.message.template.variable_5;
+    const template_variable_6 = payload.message.template.variable_6;
+    const template_variable_7 = payload.message.template.variable_7;
+    const template_variable_8 = payload.message.template.variable_8;
+
+    if (!bot_id || !user_id || !user_name || ((!template_id || !template_category || !template_language_code) && !first_message)) {
       throw new Error('Missing required payload fields');
     }
 
@@ -53,7 +64,7 @@ export const sendFirstMessage = async (bp: typeof sdk, payload: any) => {
     const chatwoot_channel = `Account#${account_id}${account_name}_Inbox#${inbox_id}${inbox_name}`
 
     // Create Message Id
-    const message_id = `${chatwoot_channel}_${user_id}_${template_id}_${message_time.getTime()}`;
+    const message_id = `${chatwoot_channel}_${user_id}_${message_time.getTime()}`;
 
     // Create accountData object
     const accountData: Record<string, any> = {};
@@ -75,18 +86,26 @@ export const sendFirstMessage = async (bp: typeof sdk, payload: any) => {
     if (user_additional_attributes) userData.userAdditionalAttributes = user_additional_attributes;
     if (user_custom_attributes) userData.userCustomAttributes = user_custom_attributes;
     
-    // Define the template data as object in event.payload
+    // Create firstMessage object
+    const firstMessage: Record<string, any> = {};
+    if (first_message) {
+      const messageData: Record<string, any> = {};
+      messageData.content = first_message
+      firstMessage.messageData = messageData
+    } else {
     const templateData: Record<string, any> = {};
-    if (template_name) templateData.template_name = template_name;
-    if (category) templateData.category = category;
-    if (language_code) templateData.language_code = language_code;
-    if (variable_2) templateData.variable_2 = variable_2;
-    if (variable_3) templateData.variable_3 = variable_3;
-    if (variable_4) templateData.variable_4 = variable_4;
-    if (variable_5) templateData.variable_5 = variable_5;
-    if (variable_6) templateData.variable_6 = variable_6;
-    if (variable_7) templateData.variable_7 = variable_7;
-    if (variable_8) templateData.variable_8 = variable_8;
+    if (template_id) templateData.id = template_id;
+    if (template_category) templateData.category = template_category;
+    if (template_language_code) templateData.language_code = template_language_code;
+    if (template_variable_2) templateData.variable_2 = template_variable_2;
+    if (template_variable_3) templateData.variable_3 = template_variable_3;
+    if (template_variable_4) templateData.variable_4 = template_variable_4;
+    if (template_variable_5) templateData.variable_5 = template_variable_5;
+    if (template_variable_6) templateData.variable_6 = template_variable_6;
+    if (template_variable_7) templateData.variable_7 = template_variable_7;
+    if (template_variable_8) templateData.variable_8 = template_variable_8;
+    firstMessage.templateData = templateData
+    }
 
     // Construct the event
     const event: sdk.IO.IncomingEvent = {
@@ -95,27 +114,27 @@ export const sendFirstMessage = async (bp: typeof sdk, payload: any) => {
       direction: 'incoming',
       payload: {
         type: 'text',
-        text: `sfm-${secure_string}`,
-        timezone: 2, // Adjust if necessary
-        language: 'nl', // Adjust if necessary
+        text: `pfm-${secure_string}`,
+        timezone: timezone,
+        language: language,
         accountData,
         inboxData,
         userData,
-        templateData
+        firstMessage
       },
       target: user_id,
       botId: bot_id,
       createdOn: message_time,
-      threadId: ''  ,
+      threadId: conversation_id,
       id: message_id,
-      preview: `snc-${secure_string}`,
+      preview: `pfm-${secure_string}`,
       hasFlag: () => false,
       setFlag: () => {},
       state: {
         __stacktrace: [],
         user: {
-          timezone: 2, // Adjust if necessary
-          language: "nl" // Adjust if necessary
+          timezone: timezone,
+          language: language
         },
         context: {},
         session: {

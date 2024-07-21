@@ -1,12 +1,16 @@
 import * as sdk from 'botpress/sdk'
-import { handleIncomingMessage } from './message-handler'
+import { processIncomingMessage } from './message-processor'
 
 export const setupMessageEndpoint = (bp: typeof sdk) => {
   const router = bp.http.createRouterForBot('chatwoot-webhook', { checkAuthentication: false })
-  const secure_string = 'e7efaba6b6d6f8cac735031582cd97d5c41431ea9cbc155e333aed7ec05cd62c';
+
+  // Retrieve variables from config
+  const config = bp.config.getModuleConfig('chatwoot-webhook')
+  const secure_string = config.secureString;
 
   router.post(`/message-endpoint/${secure_string}`, async (req, res) => {
-    // CHECK REQUEST
+
+    // Check request
     const { account, conversation, inbox, message_type, sender, event } = req.body;
 
     if (!account || !conversation || !inbox || !message_type || !sender || !event) {
@@ -31,8 +35,14 @@ export const setupMessageEndpoint = (bp: typeof sdk) => {
       return;
     }
 
-    await handleIncomingMessage(bp, req.body);
-    res.status(200).send('Payload processed');
+    // Send to handleIncomingMessage
+    try {
+      await processIncomingMessage(bp, req.body);
+      res.status(200).send('Payload processed');
+    } catch (error) {
+      bp.logger.error(`Error when processing incoming message: ${error}`)
+      res.status(500).send(`Error when processing incoming message: ${error}`)
+    }
   });
 }
 

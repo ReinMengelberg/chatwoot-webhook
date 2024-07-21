@@ -1,7 +1,12 @@
 import * as sdk from 'botpress/sdk'
 
-export const handleIncomingMessage = async (bp: typeof sdk, payload: any) => {
+export const processIncomingMessage = async (bp: typeof sdk, payload: any) => {
   try {
+    // Retrieve variables from config
+    const config = bp.config.getModuleConfig('chatwoot-webhook')
+    const timezone = config.timezone;
+    const language = config.languageCode;
+
     // Retrieve Account Data
     const account_id = payload.account.id;
     const account_name = payload.account.name.toLowerCase().replace(/\s+/g, '-');
@@ -15,8 +20,10 @@ export const handleIncomingMessage = async (bp: typeof sdk, payload: any) => {
     }
     
     // Retrieve Conversation Data
-    const channel = payload.conversation.channel;
     const conversation_id = payload.conversation.id;
+    if (!conversation_id) {
+      throw new Error('Missing conversation_id in payload');
+    }
 
     // Retrieve User Data
     const user_id = payload.sender.id;
@@ -77,8 +84,8 @@ export const handleIncomingMessage = async (bp: typeof sdk, payload: any) => {
       payload: {
         type: "text",
         text: message_text,
-        timezone: 2, // Adjust if necessary
-        language: "nl", // Adjust if necessary
+        timezone: timezone, // Adjust if necessary
+        language: language, // Adjust if necessary
         accountData,
         inboxData,
         userData
@@ -94,8 +101,8 @@ export const handleIncomingMessage = async (bp: typeof sdk, payload: any) => {
       state: {
         __stacktrace: [],
         user: {
-          timezone: 2, // Adjust if necessary
-          language: "nl", // Adjust if necessary
+          timezone: timezone, // Adjust if necessary
+          language: language, // Adjust if necessary
         },
         context: {},
         session: {
