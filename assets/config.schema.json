@@ -10,6 +10,18 @@
       "default": 10,
       "type": "number"
     },
+    "secureString": {
+      "default": "your_secure_string",
+      "type": "string"
+    },
+    "timezone": {
+      "default": "2",
+      "type": "number"
+    },
+    "languageCode": {
+      "default": "nl",
+      "type": "string"
+    },
     "$schema": {
       "type": "string"
     }
@@ -17,7 +29,10 @@
   "additionalProperties": false,
   "required": [
     "maxMessages",
-    "someEndpoint"
+    "someEndpoint",
+    "secureString",
+    "timezone",
+    "languageCode"
   ],
   "$schema": "http://json-schema.org/draft-07/schema#"
 }
