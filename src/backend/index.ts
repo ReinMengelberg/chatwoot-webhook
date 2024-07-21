@@ -7,10 +7,10 @@ const onServerStarted = async (bp: typeof sdk) => {}
 
 // At this point, you would likely set up the API route of your module.
 const onServerReady = async (bp: typeof sdk) => {
-  // Setup the message endpoint
-  setupMessageEndpoint(bp)
-  // Setup the Send First Message endpoint
-  setupPfmEndpoint(bp)
+  // Setup the message endpoint asynchronously without blocking
+  await setupMessageEndpoint(bp).catch(err => bp.logger.error(`Failed to set up message endpoint: ${err}`))
+  // Setup the Send First Message endpoint asynchronously without blocking
+  await setupPfmEndpoint(bp).catch(err => bp.logger.error(`Failed to set up PFM endpoint: ${err}`))
 }
 
 // Every time a bot is created (or enabled), this method will be called with the bot id
