@@ -95,7 +95,7 @@ export const sendFirstMessage = async (bp: typeof sdk, payload: any) => {
       direction: 'incoming',
       payload: {
         type: 'text',
-        text: `snc-${secure_string}`,
+        text: `sfm-${secure_string}`,
         timezone: 2, // Adjust if necessary
         language: 'nl', // Adjust if necessary
         accountData,
