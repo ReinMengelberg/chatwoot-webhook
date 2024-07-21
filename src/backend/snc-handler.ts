@@ -18,12 +18,11 @@ export const startNewConversation = async (bp: typeof sdk, payload: any) => {
     }
 
     // Create bot_id dynamically
-    const bot_id = payload.bot_id;
+    const bot_id = `aiex-${account_name}-${inbox_name}`;
 
     // Retrieve User Data
-    const user_id = payload.contact.id;
     const user_name = payload.contact.name;
-    const user_phone = payload.contact.phone_number;
+    const user_phone = payload.contact.phone;
     const user_email = payload.contact.email;
     const user_identifier = payload.contact.identifier;
     const user_additional_attributes = payload.contact.additional_attributes;
