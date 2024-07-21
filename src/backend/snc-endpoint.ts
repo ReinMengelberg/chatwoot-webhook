@@ -7,11 +7,11 @@ export const setupSncEndpoint = (bp: typeof sdk) => {
 
   router.post(`/snc-endpoint/${secure_string}`, async (req, res) => {
 
-    const {account, inbox, contact, message, template} = req.body
+    const {account, inbox, contact, message} = req.body
 
-    if (!account || !inbox || !contact || (!message && !template)) {
-      bp.logger.error('Invalid request payload: account, inbox, contact and message or template are required')
-      res.status(400).send('Invalid request payload: account, inbox, contact and message or template are required')
+    if (!account || !inbox || !contact || !message) {
+      bp.logger.error('Invalid request payload: account, inbox, contact and message are required')
+      res.status(400).send('Invalid request payload: account, inbox, contact and message are required')
       return
     }
 
