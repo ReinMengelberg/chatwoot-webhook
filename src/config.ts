@@ -14,16 +14,4 @@ export interface Config {
    * @default 10
    */
   maxMessages: number
-  /**
-   * @default your_secure_string
-   */
-  secureString: string
-  /**
-   * @default 2
-   */
-  timezone: number
-  /**
-   * @default nl
-   */
-  languageCode: string
 }
