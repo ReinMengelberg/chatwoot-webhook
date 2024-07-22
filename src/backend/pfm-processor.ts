@@ -132,10 +132,7 @@ export const processFirstMessage = async (bp: typeof sdk, payload: any) => {
       setFlag: () => {},
       state: {
         __stacktrace: [],
-        user: {
-          timezone: timezone,
-          language: language
-        },
+        user: {},
         context: {},
         session: {
           lastMessages: [],
