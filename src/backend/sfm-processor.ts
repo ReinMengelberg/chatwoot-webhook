@@ -116,7 +116,7 @@ export const sendFirstMessage = async (bp: typeof sdk, payload: any) => {
       direction: 'incoming',
       payload: {
         type: 'text',
-        text: `pfm-${secure_string}`,
+        text: `sfm-${secure_string}`,
         timezone: timezone,
         language: language,
         accountData,
@@ -129,7 +129,7 @@ export const sendFirstMessage = async (bp: typeof sdk, payload: any) => {
       createdOn: message_time,
       threadId: conversation_id,
       id: message_id,
-      preview: `pfm-${secure_string}`,
+      preview: `sfm-${secure_string}`,
       hasFlag: () => false,
       setFlag: () => {},
       state: {
