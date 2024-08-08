@@ -1,6 +1,6 @@
 import * as sdk from 'botpress/sdk';
 
-export const processFirstMessage = async (bp: typeof sdk, payload: any) => {
+export const sendFirstMessage = async (bp: typeof sdk, payload: any) => {
   try {
     // Retrieve variables from config
     const config = await bp.config.getModuleConfig('chatwoot-webhook')
