@@ -48,6 +48,7 @@ export const processFirstMessage = async (bp: typeof sdk, payload: any) => {
     const template_id = payload.message.template.id;
     const template_category = payload.message.template.category;
     const template_language_code = payload.message.template.language_code;
+    const template_variable_1 = payload.message.template.variable_1;
     const template_variable_2 = payload.message.template.variable_2;
     const template_variable_3 = payload.message.template.variable_3;
     const template_variable_4 = payload.message.template.variable_4;
@@ -97,6 +98,7 @@ export const processFirstMessage = async (bp: typeof sdk, payload: any) => {
     if (template_id) templateData.id = template_id;
     if (template_category) templateData.category = template_category;
     if (template_language_code) templateData.language_code = template_language_code;
+    if (template_variable_1) templateData.variable_1 = template_variable_1;
     if (template_variable_2) templateData.variable_2 = template_variable_2;
     if (template_variable_3) templateData.variable_3 = template_variable_3;
     if (template_variable_4) templateData.variable_4 = template_variable_4;
