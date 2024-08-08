@@ -1,6 +1,6 @@
 import * as sdk from 'botpress/sdk'
 import { setupMessageEndpoint } from './message-endpoint'
-import { setupPfmEndpoint } from './pfm-endpoint'
+import { setupSfmEndpoint } from './sfm-endpoint'
 
 // This is called when the server is started, usually to set up the database
 const onServerStarted = async (bp: typeof sdk) => {}
@@ -10,7 +10,7 @@ const onServerReady = async (bp: typeof sdk) => {
   // Setup the message endpoint asynchronously without blocking
   setupMessageEndpoint(bp)
   // Setup the Send First Message endpoint asynchronously without blocking
-  setupPfmEndpoint(bp)
+  setupSfmEndpoint(bp)
 }
 
 // Every time a bot is created (or enabled), this method will be called with the bot id
