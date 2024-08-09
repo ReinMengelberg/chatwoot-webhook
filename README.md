@@ -197,6 +197,8 @@ This endpoint should be set as Outgoing URL in Chatwoot agentBot Config, the mes
 The 'sfm-endpoint' is a post endpoint used for sending the first (template) message to botpress:
 https://your-botpress-url.com/api/v1/bots/webhook/mod/chatwoot-webhook/pfm-endpoint/{secureString}
 
+The 'sfm-endpoint' will create an event with 'event.preview' or event.payload.text' as 'sfm-{secureString}, so you can make different paths in you logic based on the incoming event.
+
 ### 3.1 JSON Format
 The sfm endpoint wants to receive the following json structure
 ```json
