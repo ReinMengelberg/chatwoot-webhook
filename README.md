@@ -11,7 +11,7 @@ Index
 To install the package
 - Dowload Repository
 - Unzip Repository
-- Rename Folder
+- Rename Folder to `chatwoot-webhook`
 - Access Folder using shell
 - Run `npm run dockerBuild` in folder
 - You will receive a .tgz package in the folder
