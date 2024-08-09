@@ -26,9 +26,13 @@ export const sendFirstMessage = async (bp: typeof sdk, payload: any) => {
       throw new Error('Missing conversation_id in payload');
     }
 
-    // Create bot_id dynamically
-    const bot_id = `aiex-${account_name}-${inbox_name}`;
-
+    // Check if bot.id is correct
+    const bot_id = payload.bot.id;
+    const dynamic_bot_id = `aiex-${account_name}-${inbox_name}`;
+    if (bot_id !== dynamic_bot_id) {
+      throw new Error('Bot Id does not match the expected value');
+    }
+    
     // Retrieve User Data
     const user_id = payload.contact.id
     const user_name = payload.contact.name;
