@@ -11,6 +11,8 @@ Index
 - `languageCode`: A string for setting the language code in incoming events (Char).
 - `timezone`: An integer for setting the timezone in incoming events (Integer).
 
+### YOUR ENDPOINTS WILL ONLY WORK IF YOU HAVE AN EMPTY BOT 'webhook' ACTIVE IN BOTPRESS
+
 ## 2 Message Endpoint
 
 The 'message-endpoint' is a post endpoint used for receiving messages from Chatwoot: 
