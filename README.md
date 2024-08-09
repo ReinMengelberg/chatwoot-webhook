@@ -4,6 +4,7 @@ This custom module connects Botpress to Chatwoot.
 Index
 1. Configuration
 2. Message Endpoint
+3. SFM Endpoint
 
 ## 1 Configuration
 - `secureString`: A string for protecting endpoints (Char).
