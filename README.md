@@ -183,7 +183,7 @@ The 'message-endpoint' wants to receive the following json structure as formatte
 ```
 
 ### 2.2 Usage
-This endpoint should be set as Outgoing URL in Chatwoot agentBot Config, the messages will automaticcaly be formatted correctly.
+This endpoint should be set as Outgoing URL in Chatwoot agentBot Config, the messages will automatically be formatted correctly.
 
 ### 2.3 Access Data
 - The 'messages.content' will be available in the incoming event as 'event.preview' or 'event.payload.text'
@@ -197,7 +197,8 @@ This endpoint should be set as Outgoing URL in Chatwoot agentBot Config, the mes
 The 'sfm-endpoint' is a post endpoint used for sending the first (template) message to botpress:
 https://your-botpress-url.com/api/v1/bots/webhook/mod/chatwoot-webhook/pfm-endpoint/{secureString}
 
-The 'sfm-endpoint' will create an event with 'event.preview' or event.payload.text' as 'sfm-{secureString}, so you can make different paths in you logic based on the incoming event.
+The 'sfm-endpoint' will create an event with 'event.preview' and event.payload.text' as 'sfm-{secureString}', so you can make different paths in you logic based on the incoming event. 
+- If the 'event.preview' = 'sfm-{secureString}' You know that the incoming event is supposed to send a first_message or other template, now you can add logic to access the data of the message in the 'event.payload'
 
 ### 3.1 JSON Format
 The sfm endpoint wants to receive the following json structure
