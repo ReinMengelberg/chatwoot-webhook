@@ -2,23 +2,34 @@
 
 This custom module connects Botpress to Chatwoot.
 Index
-1. Configuration
-2. Message Endpoint
-3. SFM Endpoint
+1. Setup
+2. Configuration
+3. Message Endpoint
+4. SFM Endpoint
 
-## 1 Configuration
+## 1 Setup
+To install the package
+- Dowload Repository
+- Unzip Repository
+- Rename Folder
+- Access Folder using shell
+- Run `npm run dockerBuild` in folder
+- You will receive a .tgz package in the folder
+- Add this to your modules in the botpress GUI
+- Restart Botpress
+- Add an empty bot (withouth logic) called 'webhook'
+
+## 2 Configuration
 - `secureString`: A string for protecting endpoints (Char).
 - `languageCode`: A string for setting the language code in incoming events (Char).
 - `timezone`: An integer for setting the timezone in incoming events (Integer).
 
-### YOUR ENDPOINTS WILL ONLY WORK IF YOU HAVE AN EMPTY BOT 'webhook' ACTIVE IN BOTPRESS
-
-## 2 Message Endpoint
+## 3 Message Endpoint
 
 The 'message-endpoint' is a post endpoint used for receiving messages from Chatwoot: 
 https://your-botpress-url.com/api/v1/bots/webhook/mod/chatwoot-webhook/message-endpoint/{secureString}
 
-### 2.1 JSON Format
+### 3.1 JSON Format
 The 'message-endpoint' wants to receive the following json structure as formatted by agentBot in Chatwoot.
 ```json
 {
@@ -184,17 +195,17 @@ The 'message-endpoint' wants to receive the following json structure as formatte
 }
 ```
 
-### 2.2 Usage
+### 3.2 Usage
 This endpoint should be set as Outgoing URL in Chatwoot agentBot Config, the messages will automatically be formatted correctly.
 
-### 2.3 Access Data
+### 3.3 Access Data
 - The 'messages.content' will be available in the incoming event as 'event.preview' or 'event.payload.text'
 - The 'conversation.id' will be available in the incoming event as 'event.threadId'
 - The 'account.{variable} will be available in the incoming event as 'event.payload.accountData.{variable}'
 - The 'inbox.{variable} will be available in the incoming event as 'event.payload.inboxData.{variable}'
 - The 'sender.{variable} will be available in the incoming event as 'event.payload.userData.{variable}'
 
-## 3 SFM Endpoint
+## 4 SFM Endpoint
 
 The 'sfm-endpoint' is a post endpoint used for sending the first (template) message to botpress:
 https://your-botpress-url.com/api/v1/bots/webhook/mod/chatwoot-webhook/pfm-endpoint/{secureString}
@@ -202,7 +213,7 @@ https://your-botpress-url.com/api/v1/bots/webhook/mod/chatwoot-webhook/pfm-endpo
 The 'sfm-endpoint' will create an event with 'event.preview' and event.payload.text' as 'sfm-{secureString}', so you can make different paths in you logic based on the incoming event. 
 - If the 'event.preview' = 'sfm-{secureString}' You know that the incoming event is supposed to send a first_message or other template, now you can add logic to access the data of the message in the 'event.payload'
 
-### 3.1 JSON Format
+### 4.1 JSON Format
 The sfm endpoint wants to receive the following json structure
 ```json
 {
@@ -262,20 +273,20 @@ The sfm endpoint wants to receive the following json structure
 ```
 If any of the main key's is missing in the json of the post request, the request will be considered bad.
 
-### 3.2.1 Regular Media Usage 
+### 4.2.1 Regular Media Usage 
 For regular media, use message.first_message and leave template dictionary empty in the json structure.
 
-### 3.2.2 Regular Media Access Data 
+### 4.2.2 Regular Media Access Data 
 - The 'message.first_message' will be available in the incoming event as 'event.payload.firstMessage.messageData.content'
 - The 'conversation.id' will be available in the incoming event as 'event.threadId'
 - The 'account.{variable} will be available in the incoming event as 'event.payload.accountData.{variable}'
 - The 'inbox.{variable} will be available in the incoming event as 'event.payload.inboxData.{variable}'
 - The 'contact.{variable} will be available in the incoming event as 'event.payload.userData.{variable}'
 
-### 3.3.1 WhatsApp Usage 
+### 4.3.1 WhatsApp Usage 
 For WhatsApp, use message.template dictionary and leave message.first_message empty in the json structure.
 
-### 3.3.2 WhatsApp Access Data 
+### 4.3.2 WhatsApp Access Data 
 - The 'message.template.{variable}' will be available in the incoming event as event.payload.firstMessage.templateData.{variable}
 - The 'conversation.id' will be available in the incoming event as 'event.threadId'
 - The 'account.{variable} will be available in the incoming event as 'event.payload.accountData.{variable}'
