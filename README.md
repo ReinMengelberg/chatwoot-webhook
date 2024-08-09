@@ -186,11 +186,11 @@ The 'message-endpoint' wants to receive the following json structure as formatte
 This endpoint should be set as Outgoing URL in Chatwoot agentBot Config, the messages will automaticcaly be formatted correctly.
 
 ### 2.3 Access Data
-The 'messages.content' will be available in the incoming event as 'event.preview' or 'event.payload.text'
-The 'conversation.id' will be available in the incoming event as 'event.threadId'
-The 'account.{variable} will be available in the incoming event as 'event.payload.accountData.{variable}'
-The 'inbox.{variable} will be available in the incoming event as 'event.payload.inboxData.{variable}'
-The 'sender.{variable} will be available in the incoming event as 'event.payload.userData.{variable}'
+- The 'messages.content' will be available in the incoming event as 'event.preview' or 'event.payload.text'
+- The 'conversation.id' will be available in the incoming event as 'event.threadId'
+- The 'account.{variable} will be available in the incoming event as 'event.payload.accountData.{variable}'
+- The 'inbox.{variable} will be available in the incoming event as 'event.payload.inboxData.{variable}'
+- The 'sender.{variable} will be available in the incoming event as 'event.payload.userData.{variable}'
 
 ## 3 SFM Endpoint
 
@@ -261,18 +261,18 @@ If any of the main key's is missing in the json of the post request, the request
 For regular media, use message.first_message and leave template dictionary empty in the json structure.
 
 ### 3.2.2 Regular Media Access Data 
-The 'message.first_message' will be available in the incoming event as 'event.payload.firstMessage.messageData.content'
-The 'conversation.id' will be available in the incoming event as 'event.threadId'
-The 'account.{variable} will be available in the incoming event as 'event.payload.accountData.{variable}'
-The 'inbox.{variable} will be available in the incoming event as 'event.payload.inboxData.{variable}'
-The 'contact.{variable} will be available in the incoming event as 'event.payload.userData.{variable}'
+- The 'message.first_message' will be available in the incoming event as 'event.payload.firstMessage.messageData.content'
+- The 'conversation.id' will be available in the incoming event as 'event.threadId'
+- The 'account.{variable} will be available in the incoming event as 'event.payload.accountData.{variable}'
+- The 'inbox.{variable} will be available in the incoming event as 'event.payload.inboxData.{variable}'
+- The 'contact.{variable} will be available in the incoming event as 'event.payload.userData.{variable}'
 
 ### 3.3.1 WhatsApp Usage 
 For WhatsApp, use message.template dictionary and leave message.first_message empty in the json structure.
 
 ### 3.3.2 WhatsApp Access Data 
-The 'message.template.{variable}' will be available in the incoming event as event.payload.firstMessage.templateData.{variable}
-The 'conversation.id' will be available in the incoming event as 'event.threadId'
-The 'account.{variable} will be available in the incoming event as 'event.payload.accountData.{variable}'
-The 'inbox.{variable} will be available in the incoming event as 'event.payload.inboxData.{variable}'
-The 'contact.{variable} will be available in the incoming event as 'event.payload.userData.{variable}'
+- The 'message.template.{variable}' will be available in the incoming event as event.payload.firstMessage.templateData.{variable}
+- The 'conversation.id' will be available in the incoming event as 'event.threadId'
+- The 'account.{variable} will be available in the incoming event as 'event.payload.accountData.{variable}'
+- The 'inbox.{variable} will be available in the incoming event as 'event.payload.inboxData.{variable}'
+- The 'contact.{variable} will be available in the incoming event as 'event.payload.userData.{variable}'
