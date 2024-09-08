@@ -14,7 +14,7 @@ export const setupSfmEndpoint = async (bp: typeof sdk) => {
     const {account, inbox, bot, contact, conversation, message} = req.body
 
     if (!account || !inbox || !bot || !contact || !conversation || !message) {
-      bp.logger.warning('Chatwoot-Webhook invalid request payload on /sfm-endpoint')
+      bp.logger.warn('Chatwoot-Webhook invalid request payload on /sfm-endpoint')
       res.status(400).json({ error: "account, inbox, bot, contact, conversation and messages are required"})
       return
     }
