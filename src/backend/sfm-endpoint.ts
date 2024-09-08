@@ -21,7 +21,7 @@ export const setupSfmEndpoint = async (bp: typeof sdk) => {
 
     try {
       await sendFirstMessage(bp, req.body)
-      res.status(200).send({"success":"payload processed"})
+      res.status(200).json({ success: "payload processed" })
     } catch (error) {
       bp.logger.error(`Error when sending first message recieved from /sfm-endpoint: ${error}`)
       res.status(500).json({ error: `${error}` })
