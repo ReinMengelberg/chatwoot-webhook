@@ -14,8 +14,8 @@ export const setupSfmEndpoint = async (bp: typeof sdk) => {
     const {account, inbox, bot, contact, conversation, message} = req.body
 
     if (!account || !inbox || !bot || !contact || !conversation || !message) {
-      bp.logger.warning('Chatwoot-Webhook invalid request payload on /sfm-endpoint: account, inbox, bot, contact, conversation and message are required')
-      res.status(400).send('{"error":"account, inbox, bot, contact, conversation and messages are required"}')
+      bp.logger.warning('Chatwoot-Webhook invalid request payload on /sfm-endpoint')
+      res.status(400).json({ error: "account, inbox, bot, contact, conversation and messages are required"})
       return
     }
 
@@ -24,7 +24,7 @@ export const setupSfmEndpoint = async (bp: typeof sdk) => {
       res.status(200).send({"success":"payload processed"})
     } catch (error) {
       bp.logger.error(`Error when sending first message recieved from /sfm-endpoint: ${error}`)
-      res.status(500).send(`{"error":"${error}"}`)
+      res.status(500).json({ error: `${error}` })
     }
   })
 }
