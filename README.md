@@ -1,4 +1,4 @@
-# Botpress-Chatwoot Integration Module
+# Botpress Chatwoot-Webhook Integration Module
 
 This custom module connects Botpress to Chatwoot.
 Index
