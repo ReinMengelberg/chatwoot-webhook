@@ -1,5 +1,5 @@
 {
-  "name": "Chatwoot Webhook",
+  "name": "Chatwoot-Webhook",
   "version": "1.0.0",
   "description": "This module creates two webhook endpoints that allows you to integrate botpress with Chatwoot.",
   "private": true,
