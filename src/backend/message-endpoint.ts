@@ -15,7 +15,7 @@ export const setupMessageEndpoint = async (bp: typeof sdk) => {
 
     if (!account || !conversation || !inbox || !message_type || !sender || !event) {
       bp.logger.warn('Chatwoot-Webhook invalid request payload on /message-endpoint')
-      res.status(400).json({ error: "account, inbox, bot, contact, conversation and messages are required" })
+      res.status(400).json({ error: "account, conversation, inbox, message_type, sender and event are required" })
       return;
     }
 
