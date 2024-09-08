@@ -1,11 +1,11 @@
 {
-  "name": "chatwoot-webhook",
+  "name": "Chatwoot Webhook",
   "version": "1.0.0",
-  "description": "Some description on what this module is about",
+  "description": "This module creates two webhook endpoints that allows you to integrate botpress with Chatwoot.",
   "private": true,
   "main": "dist/backend/index.js",
-  "author": "Botpress, Inc.",
-  "license": "AGPL-3.0-only",
+  "author": "ReinMengelberg",
+  "license": "LPGL-3.0-only",
   "scripts": {
     "dockerBuild": "sudo docker run -v \"$PWD:/botpress/modules/custom_module\" --rm botpress/module-builder:v0_0_2 sh -c 'cd /botpress/modules/custom_module && yarn && yarn build && yarn package'",
     "build": "node ../../build/module-builder/bin/entry build",
